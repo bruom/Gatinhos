@@ -37,11 +37,12 @@ func _process(delta):
 		if can_see_player():
 			enemy_state = EnemyState.ALERT
 			mesh_instance.set_surface_override_material(0, alert_material)
-		var next_patrol_position = get_next_patrol_waypoint()
-		if has_arrived_at_waypoint(next_patrol_position):
-			current_patrol_index += 1
-		if next_patrol_position != null:
-			nav_agent.target_position = next_patrol_position
+		if !patrol_route.is_empty():
+			var next_patrol_position = get_next_patrol_waypoint()
+			if has_arrived_at_waypoint(next_patrol_position):
+				current_patrol_index += 1
+			if next_patrol_position != null:
+				nav_agent.target_position = next_patrol_position
 			
 
 #sound array is Array[[origin: Vector3, radius: float]]
