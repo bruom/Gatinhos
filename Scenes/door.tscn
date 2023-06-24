@@ -1,0 +1,117 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmr1u7rosrxfr"]
+
+[ext_resource type="Script" path="res://Scripts/door.gd" id="1_xpdr8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c0x20"]
+size = Vector3(0.5, 1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g7set"]
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="Animation" id="Animation_6is4r"]
+resource_name = "Open"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftHinge:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.5708, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightHinge:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -1.5708, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_evtxw"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftHinge:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightHinge:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ktkn6"]
+_data = {
+"Open": SubResource("Animation_6is4r"),
+"RESET": SubResource("Animation_evtxw")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5uwtr"]
+size = Vector3(1, 1, 0.1)
+
+[node name="Door" type="Node3D"]
+script = ExtResource("1_xpdr8")
+
+[node name="LeftHinge" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="LeftDoor" type="RigidBody3D" parent="LeftHinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+axis_lock_linear_y = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftHinge/LeftDoor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.5, 0)
+shape = SubResource("BoxShape3D_c0x20")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftHinge/LeftDoor"]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.5, 0)
+mesh = SubResource("BoxMesh_g7set")
+skeleton = NodePath("../../..")
+
+[node name="RightHinge" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="RightDoor" type="RigidBody3D" parent="RightHinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+axis_lock_linear_y = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightHinge/RightDoor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
+shape = SubResource("BoxShape3D_c0x20")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightHinge/RightDoor"]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
+mesh = SubResource("BoxMesh_g7set")
+skeleton = NodePath("../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ktkn6")
+}
+
+[node name="InteractionRange" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionRange"]
+shape = SubResource("BoxShape3D_5uwtr")
+
+[connection signal="input_event" from="InteractionRange" to="." method="_on_interaction_range_input_event"]
+[connection signal="mouse_entered" from="InteractionRange" to="." method="_on_interaction_range_mouse_entered"]
