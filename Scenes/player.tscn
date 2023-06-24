@@ -6,7 +6,8 @@
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_keg1m")
-speed = 3.0
+run_speed = 2.0
+play_sfx = false
 
 [node name="cat" parent="." instance=ExtResource("2_obngv")]
 
