@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/main.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
 
+[filesystem]
+
+import/fbx/enabled=false
+
 [input]
 
 Forward={
@@ -59,3 +63,10 @@ Interact={
 3d_physics/layer_1="player"
 3d_physics/layer_2="enemy"
 3d_physics/layer_3="obstacle"
+
+[shader_globals]
+
+player_position={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}
