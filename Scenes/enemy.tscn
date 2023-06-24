@@ -1,10 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbgwftqyu6xhq"]
+[gd_scene load_steps=4 format=3 uid="uid://cbgwftqyu6xhq"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_0q6mp"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_djtmh"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auvwt"]
+albedo_color = Color(1, 0, 0, 1)
+
 [node name="enemy" type="Node3D"]
 script = ExtResource("1_0q6mp")
+alert_material = SubResource("StandardMaterial3D_auvwt")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 axis_lock_angular_x = true
@@ -13,6 +17,6 @@ axis_lock_angular_z = true
 [node name="cat" parent="StaticBody3D" instance=ExtResource("2_djtmh")]
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
-path_desired_distance = 0.5
+path_desired_distance = 0.3
 path_max_distance = 1.01
 debug_enabled = true

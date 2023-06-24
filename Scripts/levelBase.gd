@@ -3,19 +3,22 @@ class_name LevelBase extends Node3D
 @export var playerScene: PackedScene
 @export var doorScene: PackedScene
 
-var playerNode: Node3D
+var playerNode: Node3D 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_create_player()
 	_create_enemy_nodes()
 	_create_finish_nodes()
 	_create_door_nodes()
+	
+	$NavigationRegion3D.navigation_mesh.geometry_source_group_name = "level_mesh_region";
+	$NavigationRegion3D.bake_navigation_mesh()
 		
 func _create_player():
 	playerNode = playerScene.instantiate()
 	add_child(playerNode)
 	playerNode.position = $PlayerStart.position
-	
 	
 func _create_enemy_nodes():
 	var enemyNodes = $Enemies.get_children()
