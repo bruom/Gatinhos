@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bw8gy5ffprefa"]
+
+[ext_resource type="MeshLibrary" uid="uid://cmqxvmtjgdrew" path="res://Resources/level_meshes.tres" id="1_ch1kn"]
+[ext_resource type="Script" path="res://Scripts/camera.gd" id="2_t0v4f"]
+
+[sub_resource type="Environment" id="Environment_702uy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ahy45"]
+
+[node name="LevelBase" type="Node3D"]
+
+[node name="LevelMap" type="GridMap" parent="." groups=["level_mesh_region"]]
+mesh_library = ExtResource("1_ch1kn")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.770991, -0.470095, 0.429632, 4.41097e-17, 0.674625, 0.738161, -0.636846, -0.569116, 0.52013, 8.67004, 15.8567, 11.7715)
+environment = SubResource("Environment_702uy")
+projection = 1
+size = 28.0
+near = 0.001
+script = ExtResource("2_t0v4f")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.982567, 0.0881705, -0.163668, -4.71497e-17, 0.880378, 0.474273, 0.185907, -0.466005, 0.865031, 0, 5.28734, 0)
+
+[node name="PlayerStart" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.810749, 1.65902, -12.1062)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerStart"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.282256, 1.82629, -0.651128)
+layers = 512
+mesh = SubResource("CapsuleMesh_ahy45")
