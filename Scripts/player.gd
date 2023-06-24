@@ -1,7 +1,5 @@
 extends CharacterBody3D
 
-@onready var sound_debug: MeshInstance3D = $sound_debug
-
 @export var speed: float = 1.0
 @export var run_speed: float = 1.2
 @export var sneak_speed: float = 0.5
@@ -11,6 +9,7 @@ extends CharacterBody3D
 var current_sound_radius: float = 0.0
 
 func _process(delta):
+	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	var direciton: Vector2 = Input.get_vector("Left", "Right", "Forward", "Backward")
 	velocity = Vector3(direciton.x, 0.0, direciton.y).normalized() * speed
 	if velocity != Vector3.ZERO:
@@ -25,4 +24,3 @@ func _process(delta):
 		move_and_slide()
 	else:
 		current_sound_radius = 0.0
-		

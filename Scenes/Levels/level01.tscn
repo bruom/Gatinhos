@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://jl0ej2ylxsml"]
+[gd_scene load_steps=4 format=3 uid="uid://jl0ej2ylxsml"]
 
 [ext_resource type="PackedScene" uid="uid://bw8gy5ffprefa" path="res://Scenes/Levels/levelBase.tscn" id="1_el0lq"]
+[ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_85jsd"]
+[ext_resource type="PackedScene" uid="uid://dmr1u7rosrxfr" path="res://Scenes/door.tscn" id="3_uy48r"]
 
 [node name="LevelBase" instance=ExtResource("1_el0lq")]
 
@@ -19,3 +21,9 @@ shadow_enabled = true
 
 [node name="PlayerStart" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.478012, 0.882097, -7.38783)
+
+[node name="enemy" parent="Enemies" index="0" instance=ExtResource("2_85jsd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.23724, 1.29321, 4.82758)
+
+[node name="Door" parent="Enemies/enemy" index="2" instance=ExtResource("3_uy48r")]
+transform = Transform3D(0.8982, 0, 0, 0, 1, 0, 0, 0, 1, -0.261368, -0.43069, -7.38147)
