@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqsqwjyen4waw"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_sty5q"]
+geometry_source_geometry_mode = 1
+geometry_source_group_name = &"LevelMap"
+
+[node name="Level" type="Node3D"]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_sty5q")
