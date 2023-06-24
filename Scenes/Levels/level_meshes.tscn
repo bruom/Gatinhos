@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ba8j151hma20s"]
+[gd_scene load_steps=17 format=3 uid="uid://ba8j151hma20s"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/finish.gd" id="1_egrna"]
 
@@ -33,6 +33,20 @@ albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_elfy7"]
 material = SubResource("StandardMaterial3D_s872e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ilnl"]
+albedo_color = Color(0.447059, 0.266667, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6f873"]
+material = SubResource("StandardMaterial3D_4ilnl")
+size = Vector3(0.2, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lsq4x"]
+albedo_color = Color(0.447059, 0.266667, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lk2mr"]
+material = SubResource("StandardMaterial3D_lsq4x")
+size = Vector3(1, 1, 0.2)
 
 [node name="levelMeshes" type="Node3D"]
 
@@ -69,3 +83,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.147, 2.08165e-12, 2.08165e-
 layers = 512
 mesh = SubResource("BoxMesh_elfy7")
 script = ExtResource("1_egrna")
+
+[node name="DoorZ" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.83797, 0, 0)
+mesh = SubResource("BoxMesh_6f873")
+
+[node name="DoorX" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.77554, -0.0061419, 0.00559467)
+mesh = SubResource("BoxMesh_lk2mr")
