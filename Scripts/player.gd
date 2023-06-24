@@ -3,7 +3,7 @@ extends CharacterBody3D
 @onready var sound_debug: MeshInstance3D = $sound_debug
 
 @export var speed: float = 1.0
-@export var sound_radius: float = 3.0
+@export var sound_radius: float = 1.5
 var current_sound_radius: float = 0.0
 
 func _process(delta):
