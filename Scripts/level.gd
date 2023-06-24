@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var navigation_region_3d = $NavigationRegion3D
 
-var currentLevel: int = 2
+var currentLevel: int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

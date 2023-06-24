@@ -1,20 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://bw8gy5ffprefa"]
+[gd_scene load_steps=7 format=3 uid="uid://bw8gy5ffprefa"]
 
 [ext_resource type="MeshLibrary" uid="uid://cmqxvmtjgdrew" path="res://Resources/level_meshes.tres" id="1_ch1kn"]
+[ext_resource type="Script" path="res://Scripts/levelBase.gd" id="1_yk56j"]
+[ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="2_ly2nx"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="2_t0v4f"]
 
 [sub_resource type="Environment" id="Environment_702uy"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahy45"]
+radius = 0.25
+height = 1.0
+radial_segments = 32
+rings = 4
 
 [node name="LevelBase" type="Node3D"]
+script = ExtResource("1_yk56j")
+player = ExtResource("2_ly2nx")
 
 [node name="LevelMap" type="GridMap" parent="." groups=["level_mesh_region"]]
 mesh_library = ExtResource("1_ch1kn")
+cell_size = Vector3(1, 1, 1)
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.770991, -0.470095, 0.429632, 4.41097e-17, 0.674625, 0.738161, -0.636846, -0.569116, 0.52013, 8.67004, 15.8567, 11.7715)
+cull_mask = 511
 environment = SubResource("Environment_702uy")
 projection = 1
 size = 28.0
@@ -28,6 +38,8 @@ transform = Transform3D(0.982567, 0.0881705, -0.163668, -4.71497e-17, 0.880378, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.810749, 1.65902, -12.1062)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerStart"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.282256, 1.82629, -0.651128)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.5, 2.08165e-12)
 layers = 512
 mesh = SubResource("CapsuleMesh_ahy45")
+
+[node name="Enemies" type="Node3D" parent="."]

@@ -5,6 +5,9 @@
 [sub_resource type="NavigationMesh" id="NavigationMesh_sty5q"]
 geometry_source_geometry_mode = 1
 geometry_source_group_name = &"level_mesh_region"
+agent_height = 2.0
+agent_radius = 0.25
+agent_max_climb = 0.0
 
 [node name="Level" type="Node3D"]
 script = ExtResource("1_3g4fb")
