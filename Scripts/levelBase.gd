@@ -27,7 +27,14 @@ func _ready():
 		add_child(area)
 		area.position = Vector3(finishGridPosition.x, finishGridPosition.y, finishGridPosition.z) + Vector3(0.5, 0.5, 0.5)
 		
+		area.set_collision_mask_value(1, false)
+		area.set_collision_mask_value(2, true)
+		
 		$LevelMap.set_cell_item(finishGridPosition, -1)
+		
+		var meshInstance = MeshInstance3D.new()
+		meshInstance.mesh = BoxMesh.new()
+		area.add_child(meshInstance)
 	
 
 func player_entered_finish_tile(node):

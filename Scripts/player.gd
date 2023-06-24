@@ -14,6 +14,4 @@ func _process(delta):
 		look_at(global_position + velocity)
 		move_and_slide()
 	else:
-		current_sound_radius = 0.0
-	
-	sound_debug.mesh.bottom_radius = current_sound_radius
+		current_sound_radius = 0.
