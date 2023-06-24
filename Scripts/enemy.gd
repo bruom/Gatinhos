@@ -31,6 +31,9 @@ func _process(delta):
 	if enemy_state == EnemyState.ALERT:
 		nav_agent.target_position = target.global_position
 	elif enemy_state == EnemyState.IDLE:
+		if can_hear_player():
+			enemy_state = EnemyState.ALERT
+			mesh_instance.set_surface_override_material(0, alert_material)
 		if can_see_player():
 			enemy_state = EnemyState.ALERT
 			mesh_instance.set_surface_override_material(0, alert_material)
@@ -40,6 +43,19 @@ func _process(delta):
 		if next_patrol_position != null:
 			nav_agent.target_position = next_patrol_position
 			
+
+#sound array is Array[[origin: Vector3, radius: float]]
+func check_for_sounds(sound_array):
+	for sound in sound_array:
+		if global_position.distance_squared_to(sound[0]) < sound[1] * sound[1]:
+			print("i hear you")
+		
+
+func can_hear_player() -> bool:
+	if target != null:
+		if global_position.distance_to(target.global_position) < target.current_sound_radius:
+			return true
+	return false
 
 func has_arrived_at_waypoint(waypoint: Vector3) -> bool:
 	return waypoint.distance_squared_to(global_position) < 0.3
