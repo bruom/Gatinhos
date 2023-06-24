@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://ck8c4wfr2f15y"]
 
-[ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_dacn3"]
-[ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_vbsvv"]
+[ext_resource type="PackedScene" uid="uid://b0x1euv2wfm8s" path="res://Scenes/player.tscn" id="1_dacn3"]
+[ext_resource type="PackedScene" path="res://Scenes/enemy.tscn" id="2_vbsvv"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_gqfv8"]
 ground_color = Color(0.443137, 0.490196, 0.34902, 1)
