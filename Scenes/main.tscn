@@ -1,3 +1,45 @@
-[gd_scene format=3 uid="uid://ck8c4wfr2f15y"]
+[gd_scene load_steps=8 format=3 uid="uid://ck8c4wfr2f15y"]
+
+[ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_dacn3"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_gqfv8"]
+ground_color = Color(0.443137, 0.490196, 0.34902, 1)
+energy_multiplier = 1.5
+
+[sub_resource type="Sky" id="Sky_6oae2"]
+sky_material = SubResource("PhysicalSkyMaterial_gqfv8")
+
+[sub_resource type="Environment" id="Environment_5qmwq"]
+background_mode = 2
+sky = SubResource("Sky_6oae2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8rnpj"]
+albedo_color = Color(0.231373, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kphj1"]
+material = SubResource("StandardMaterial3D_8rnpj")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ov0d7"]
+size = Vector3(2, 2, 2)
 
 [node name="Main" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_dacn3")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.979768, 0.200137, 0, -0.200137, 0.979768, 0, 1.42643, 3.08208)
+environment = SubResource("Environment_5qmwq")
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.390619, 0.920553, 0, -0.920553, 0.390619, 0, 1.50992, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.77736, 0, -2.70071)
+mesh = SubResource("BoxMesh_kphj1")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_ov0d7")

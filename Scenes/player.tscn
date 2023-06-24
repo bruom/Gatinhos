@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://nkh8gcim1mk4"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_keg1m"]
+[ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_obngv"]
+
+[node name="Player" type="Node3D"]
+script = ExtResource("1_keg1m")
+
+[node name="char_body" type="CharacterBody3D" parent="."]
+
+[node name="cat" parent="char_body" instance=ExtResource("2_obngv")]
