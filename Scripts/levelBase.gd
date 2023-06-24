@@ -2,6 +2,7 @@ class_name LevelBase extends Node3D
 
 @export var playerScene: PackedScene
 @export var doorScene: PackedScene
+@export var background_music: AudioStream
 
 var playerNode: Node3D 
 
@@ -14,6 +15,9 @@ func _ready():
 	
 	$NavigationRegion3D.navigation_mesh.geometry_source_group_name = "level_mesh_region";
 	$NavigationRegion3D.bake_navigation_mesh()
+	
+	$AudioStreamPlayer.stream = background_music
+	$AudioStreamPlayer.play()
 		
 func _create_player():
 	playerNode = playerScene.instantiate()
