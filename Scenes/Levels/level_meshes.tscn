@@ -1,0 +1,71 @@
+[gd_scene load_steps=13 format=3 uid="uid://ba8j151hma20s"]
+
+[ext_resource type="Script" path="res://Scenes/Levels/finish.gd" id="1_egrna"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymebo"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xyhf2"]
+material = SubResource("StandardMaterial3D_ymebo")
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2xhuq"]
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qowej"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cs4cf"]
+material = SubResource("StandardMaterial3D_qowej")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s7smu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mybex"]
+albedo_color = Color(0.517184, 0.517184, 0.517184, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yp00o"]
+material = SubResource("StandardMaterial3D_mybex")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_heuwt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s872e"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_elfy7"]
+material = SubResource("StandardMaterial3D_s872e")
+
+[node name="levelMeshes" type="Node3D"]
+
+[node name="Cylinder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 1)
+mesh = SubResource("CylinderMesh_xyhf2")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cylinder"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cylinder/StaticBody3D"]
+shape = SubResource("CylinderShape3D_2xhuq")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88935, 0, 0)
+mesh = SubResource("BoxMesh_cs4cf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
+shape = SubResource("BoxShape3D_s7smu")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.88862)
+mesh = SubResource("BoxMesh_yp00o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_heuwt")
+
+[node name="Finish" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.147, 2.08165e-12, 2.08165e-12)
+layers = 512
+mesh = SubResource("BoxMesh_elfy7")
+script = ExtResource("1_egrna")
