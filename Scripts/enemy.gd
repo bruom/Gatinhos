@@ -7,6 +7,7 @@ extends Node3D
 @export var vision_angle: float = 60
 @export var speed: float = 1.0
 @export var patrol_route: Array[Vector3] = []
+
 var current_patrol_index: int = 0
 var mesh_instance: MeshInstance3D
 var enemy_state: EnemyState = EnemyState.IDLE
