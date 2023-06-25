@@ -11,6 +11,8 @@ script = ExtResource("1_0q6mp")
 alert_material = SubResource("StandardMaterial3D_auvwt")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 4
+collision_mask = 2
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 

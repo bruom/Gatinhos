@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnhsxd83cgrpn"]
+
+[ext_resource type="Script" path="res://Scripts/levelManager.gd" id="1_05ld5"]
+
+[node name="LevelManagers" type="Node3D"]
+script = ExtResource("1_05ld5")
+current_level = 1

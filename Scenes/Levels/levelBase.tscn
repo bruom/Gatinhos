@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/levelBase.gd" id="1_yk56j"]
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="2_ly2nx"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="2_t0v4f"]
-[ext_resource type="PackedScene" uid="uid://cl6sjx2r46yng" path="res://Scenes/door.tscn" id="3_of3yr"]
+[ext_resource type="PackedScene" uid="uid://dmr1u7rosrxfr" path="res://Scenes/door.tscn" id="3_of3yr"]
 [ext_resource type="AudioStream" uid="uid://btgcis6dd5wr3" path="res://Assets/Sound/background_music (placeholder).wav" id="4_wf7c0"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_sty5q"]
