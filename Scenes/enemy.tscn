@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbgwftqyu6xhq"]
+[gd_scene load_steps=5 format=3 uid="uid://cbgwftqyu6xhq"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_0q6mp"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_djtmh"]
@@ -6,13 +6,18 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auvwt"]
 albedo_color = Color(1, 0, 0, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrunl"]
+albedo_color = Color(1, 1, 0.192157, 1)
+
 [node name="enemy" type="Node3D"]
 script = ExtResource("1_0q6mp")
 alert_material = SubResource("StandardMaterial3D_auvwt")
+suspicious_material = SubResource("StandardMaterial3D_wrunl")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 4
 collision_mask = 2
+axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 
