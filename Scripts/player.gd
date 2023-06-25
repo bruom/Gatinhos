@@ -46,4 +46,6 @@ func _process_collision():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		on_hit.emit(collider)
-			
+
+func blink():
+	cat.set_face_uv_offset(Vector2(0.5, 0.0))
