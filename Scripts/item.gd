@@ -18,6 +18,7 @@ func _input(event):
 	if interactable && event.is_action_pressed("Interact"):
 		print("Item collected")
 		player.pickup_item(self)
+		remove_from_group("ActiveItems")
 		self.queue_free()
 
 func _on_hitbox_body_entered(body):

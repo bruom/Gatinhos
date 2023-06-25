@@ -10,6 +10,8 @@ signal on_hit(collider)
 @export var run_speed: float = 1.2
 @export var sneak_speed: float = 0.5
 @export var sound_radius: float = 1.5
+@export var run_sound_multiplier: float = 2.0
+@export var sneak_sound_multiplier: float = 0.5
 @export var item_placer: PackedScene
 var current_sound_radius: float = 0.0
 var items = {
@@ -20,6 +22,9 @@ var items = {
 enum State { IDLE, WALK, RUN, SNEAK }
 var current_state: State = State.IDLE
 
+func _ready():
+	cat.footstep_occured.connect(Callable(_on_cat_footstep_occured))
+	
 func _process(delta):
 	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	var direciton: Vector2 = Input.get_vector("Left", "Right", "Forward", "Backward")
@@ -59,16 +64,16 @@ func _process_collision():
 func blink():
 	cat.set_face_uv_offset(Vector2(0.5, 0.0))
 			
-
 func _on_cat_footstep_occured():
-	if current_state in [State.RUN, State.WALK]:
-		noise_emitter.emit_noise()
+	if current_state == State.RUN:
+		noise_emitter.emit_noise(sound_radius * run_sound_multiplier)
+	elif current_state == State.WALK:
+		noise_emitter.emit_noise(sound_radius)
 	elif current_state == State.SNEAK:
-		noise_emitter.emit_noise()
+		noise_emitter.emit_noise(sound_radius * sneak_sound_multiplier)
 		
 func pickup_item(item):
 	self.items[item.item_type] += 1
-	item.remove_from_group("PlacedItems")
 	
 func _input(event):
 	if event.is_action_pressed("UseItem1"):

@@ -10,11 +10,13 @@ axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("1_0q6mp")
+speed = 1.5
+alert_speed_mult = 2.0
 
 [node name="overhead_label" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.980707, 2.08165e-12)
 billboard = 1
-render_priority = 1
+render_priority = 5
 outline_render_priority = 0
 modulate = Color(1, 0.203922, 0.333333, 1)
 font_size = 72

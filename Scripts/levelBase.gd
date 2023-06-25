@@ -16,13 +16,21 @@ func _ready():
 	_create_enemy_nodes()
 	_create_finish_nodes()
 	_create_door_nodes()
+	_create_collisions()
 	
 	$AudioStreamPlayer.stream = background_music
 	$AudioStreamPlayer.play()
-		
+
+func _create_collisions():
+	var id = $LevelMap.mesh_library.find_item_by_name("Wall")
+	var wallPositions = $LevelMap.get_used_cells_by_item(id)
+	for wallPosition in wallPositions:
+		_create_collision_box(wallPosition)
+
 func _create_player():
 	playerNode = playerScene.instantiate()
 	add_child(playerNode)
+	
 	playerNode.position = $PlayerStart.position
 	playerNode.on_hit.connect(func(collider): on_player_hit.emit(collider))
 
@@ -76,6 +84,14 @@ func _create_door(gridPosition, rotation = 0):
 	add_child(door)
 	door.position = _grid_to_scene_position(gridPosition, Vector3(0.5, 0, 0.5))
 	door.rotation.y = rotation
-	
+
+func _create_collision_box(grid_position):
+	var col = CollisionShape3D.new()
+	var body = StaticBody3D.new()
+	col.shape = BoxShape3D.new()
+	body.add_child(col)
+	$Collisions.add_child(body)
+	col.position = _grid_to_scene_position(grid_position)
+
 func _grid_to_scene_position(gridPosition, offset = Vector3(0.5, 0.5, 0.5)) -> Vector3:
 	return Vector3(gridPosition.x, gridPosition.y, gridPosition.z) + offset

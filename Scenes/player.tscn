@@ -1,18 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://nkh8gcim1mk4"]
+[gd_scene load_steps=6 format=3 uid="uid://nkh8gcim1mk4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_keg1m"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_obngv"]
+[ext_resource type="Script" path="res://Scripts/noiseEmitter.gd" id="3_3q8fm"]
 [ext_resource type="AudioStream" uid="uid://cexaxjjjkjh0c" path="res://Assets/Sound/footstep (placeholder).wav" id="3_p84ql"]
 [ext_resource type="PackedScene" uid="uid://5thv6qle75qj" path="res://Scenes/item.tscn" id="4_1e70m"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_keg1m")
-run_speed = 2.0
+speed = 1.5
+run_speed = 1.5
 item_placer = ExtResource("4_1e70m")
 
 [node name="cat" parent="." instance=ExtResource("2_obngv")]
 
-[node name="Footsteps SFX" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("3_p84ql")
-volume_db = -20.0
-pitch_scale = 2.0
+[node name="NoiseEmitter" type="Node3D" parent="."]
+script = ExtResource("3_3q8fm")
+noise_audio_stream = ExtResource("3_p84ql")
