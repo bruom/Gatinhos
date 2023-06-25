@@ -5,6 +5,9 @@
 [ext_resource type="AudioStream" uid="uid://cexaxjjjkjh0c" path="res://Assets/Sound/footstep (placeholder).wav" id="3_p84ql"]
 
 [node name="Player" type="CharacterBody3D"]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 script = ExtResource("1_keg1m")
 run_speed = 2.0
 play_sfx = false

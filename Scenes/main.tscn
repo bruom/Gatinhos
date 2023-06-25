@@ -40,7 +40,10 @@ albedo_color = Color(1, 0.396078, 0.329412, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_dacn3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.14904, 0, -2.03356)
-speed = 3.0
+speed = 2.0
+run_speed = 2.5
+sneak_speed = 1.0
+sound_radius = 3.0
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.624057, 0.781379, 0, -0.781379, 0.624057, 0, 7.39376, 5.86953)
@@ -83,4 +86,5 @@ shape = SubResource("BoxShape3D_ov0d7")
 transform = Transform3D(-0.809735, -3.48787e-16, -0.586796, -7.77579e-17, 1, -4.87092e-16, 0.586796, -3.48787e-16, -0.809735, 1.6494, -4.68082e-19, -1.7857)
 target = NodePath("../Player")
 alert_material = SubResource("StandardMaterial3D_1lcf7")
+speed = 2.1
 patrol_route = Array[Vector3]([Vector3(3, 2.08165e-12, -3), Vector3(3.5, 2.08165e-12, 4), Vector3(-2, 2.08165e-12, 1)])
