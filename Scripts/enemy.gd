@@ -129,9 +129,9 @@ func can_see_player() -> bool:
 					return true
 	return false
 
-func calculate_angle(target: Vector3) -> float:
-	var forward_pos = -global_transform.basis.z
-	var direction_to_target = target - global_position
+func calculate_angle(_target: Vector3) -> float:
+	var forward_pos = cat.facing_direction
+	var direction_to_target = _target - global_position
 	return forward_pos.angle_to(direction_to_target)
 
 func cast_ray(target: Vector3):
