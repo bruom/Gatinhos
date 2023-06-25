@@ -145,14 +145,14 @@ bind/24/bone = -1
 bind/24/pose = Transform3D(-95.6672, -10.252, -27.2523, -27.4266, 0.303045, 96.1649, -9.77627, 99.4727, -3.10169, -6.40179, -7.05906, -0.663235)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ojdgd"]
-render_priority = 0
+render_priority = 3
 shader = ExtResource("1_wsmyi")
 shader_parameter/uv_offset = null
 shader_parameter/mainTex = ExtResource("3_ths5r")
 shader_parameter/alphaTex = ExtResource("2_r3b6q")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1oe1i"]
-render_priority = 0
+render_priority = 2
 shader = ExtResource("1_wsmyi")
 shader_parameter/uv_offset = null
 shader_parameter/mainTex = ExtResource("5_k1h0q")
@@ -185,7 +185,7 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_umn07"]
-render_priority = 0
+render_priority = 2
 shader = ExtResource("6_jj6ii")
 shader_parameter/motion_speed = 1.0
 shader_parameter/motion_amount = 1.0
@@ -403,7 +403,7 @@ skin = SubResource("Skin_ods57")
 surface_material_override/0 = SubResource("ShaderMaterial_umn07")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="cat/Armature001/Skeleton3D"]
-transform = Transform3D(0.998188, -0.0486731, -0.0353849, 0.0352779, -0.0030568, 0.999373, -0.0487507, -0.99881, -0.00133418, 0.133365, 0.384173, -52.797)
+transform = Transform3D(0.998188, -0.0486729, -0.0353849, 0.0352778, -0.00305758, 0.999373, -0.0487505, -0.99881, -0.00133496, 0.133371, 0.384151, -52.797)
 bone_name = "mixamorig_Head"
 bone_idx = 5
 
