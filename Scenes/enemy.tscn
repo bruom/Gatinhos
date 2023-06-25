@@ -9,21 +9,19 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrunl"]
 albedo_color = Color(1, 1, 0.192157, 1)
 
-[node name="enemy" type="Node3D"]
-script = ExtResource("1_0q6mp")
-alert_material = SubResource("StandardMaterial3D_auvwt")
-suspicious_material = SubResource("StandardMaterial3D_wrunl")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="enemy" type="CharacterBody3D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 3
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
-
-[node name="cat" parent="StaticBody3D" instance=ExtResource("2_djtmh")]
+script = ExtResource("1_0q6mp")
+alert_material = SubResource("StandardMaterial3D_auvwt")
+suspicious_material = SubResource("StandardMaterial3D_wrunl")
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 path_desired_distance = 0.3
 path_max_distance = 1.01
 debug_enabled = true
+
+[node name="cat" parent="." instance=ExtResource("2_djtmh")]
