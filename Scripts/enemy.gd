@@ -24,7 +24,8 @@ var enemy_state: EnemyState = EnemyState.IDLE:
 
 var chase_target
 var investigation_target
-var cur_investigation_time: float = 0.0
+var remaining_investigation_time: float = 0.0
+var investigating: bool = false
 
 enum EnemyState {
 	IDLE,
@@ -35,34 +36,41 @@ enum EnemyState {
 func _ready():
 	mesh_instance = get_node("StaticBody3D/cat/mesh")
 	
-func _process(delta):
+func _physics_process(delta):
 	var next_pos = nav_agent.get_next_path_position()
-	var dir = next_pos - global_position
-	if dir != Vector3.ZERO:
-		look_at(next_pos)
-		global_position += dir.normalized() * speed * delta
+	move_if_needed(next_pos, speed * delta)
 	
 	keep_watch()
-	if enemy_state == EnemyState.ALERT:
-		if !can_see_player():
-			if has_reached_point(chase_target):
-				chase_target = estimate_target_position()
-			nav_agent.target_position = chase_target
-	elif enemy_state == EnemyState.SUSPICIOUS:
-		if investigation_target != null && investigation_target is Vector3:
-			nav_agent.target_position = investigation_target
-			if has_reached_point(investigation_target):
-				cur_investigation_time = investigation_time
-				enemy_state = EnemyState.IDLE
-				#TODO: spend some time investigating
-	elif enemy_state == EnemyState.IDLE:
-		if !patrol_route.is_empty():
-			var next_patrol_position = get_next_patrol_waypoint()
-			if has_reached_point(next_patrol_position):
-				current_patrol_index += 1
-			if next_patrol_position != null:
-				nav_agent.target_position = next_patrol_position
-			
+	if investigating:
+		remaining_investigation_time = max(0.0, remaining_investigation_time - delta)
+		if remaining_investigation_time <= 0.0:
+			investigating = false
+	else: 
+		if enemy_state == EnemyState.ALERT:
+			if !can_see_player():
+				if has_reached_point(chase_target):
+					chase_target = estimate_target_position()
+				nav_agent.target_position = chase_target
+		elif enemy_state == EnemyState.SUSPICIOUS:
+			if investigation_target != null && investigation_target is Vector3:
+				nav_agent.target_position = investigation_target
+				if has_reached_point(investigation_target):
+					enemy_state = EnemyState.IDLE
+					investigating = true
+					remaining_investigation_time = investigation_time
+		elif enemy_state == EnemyState.IDLE:
+			if !patrol_route.is_empty():
+				var next_patrol_position = get_next_patrol_waypoint()
+				if has_reached_point(next_patrol_position):
+					current_patrol_index += 1
+				if next_patrol_position != null:
+					nav_agent.target_position = next_patrol_position
+
+func move_if_needed(next_pos: Vector3, amount: float):
+	var dir = next_pos - global_position
+	if dir.length() > 0.1:
+		look_at(next_pos)
+		global_position += dir.normalized() * amount
 
 func estimate_target_position() -> Vector3:
 	var rand_x = randf_range(-1.0, 1.0)
@@ -76,14 +84,12 @@ func keep_watch():
 	if can_see_player():
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
-		
 
 #sound array is Array[[origin: Vector3, radius: float]]
 func check_for_sounds(sound_array):
 	for sound in sound_array:
 		if global_position.distance_squared_to(sound[0]) < sound[1] * sound[1]:
 			print("i hear you")
-		
 
 func can_hear_player() -> bool:
 	if target != null:
@@ -101,7 +107,6 @@ func get_next_patrol_waypoint():
 		current_patrol_index = 0
 	if patrol_route.size() > current_patrol_index:
 		return patrol_route[current_patrol_index]
-		
 
 func can_see_player() -> bool:
 	if target != null:
