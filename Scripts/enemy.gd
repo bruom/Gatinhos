@@ -38,7 +38,6 @@ enum EnemyState {
 
 func _physics_process(delta):
 	var next_pos = nav_agent.get_next_path_position()
-	anim_player.current_animation_position
 	keep_watch()
 	if looking_around:
 		anim_player.play("cat_look")
@@ -48,10 +47,11 @@ func _physics_process(delta):
 	else: 
 		move_if_needed(next_pos, speed)
 		if enemy_state == EnemyState.ALERT:
-			if !can_see_player():
-				if has_reached_point(chase_target):
-					chase_target = estimate_target_position()
-				nav_agent.target_position = chase_target
+			nav_agent.target_position = target.global_position
+#			if !can_see_player():
+#				if has_reached_point(chase_target):
+#					chase_target = estimate_target_position()
+#				nav_agent.target_position = chase_target
 		elif enemy_state == EnemyState.SUSPICIOUS:
 			if investigation_target != null && investigation_target is Vector3:
 				nav_agent.target_position = investigation_target
@@ -75,7 +75,7 @@ func start_looking_around():
 func move_if_needed(next_pos: Vector3, amount: float):
 	var dir = next_pos - global_position
 	dir.y = 0.0
-	if dir.length() > 0.1:
+	if nav_agent.distance_to_target() > 0.05:
 		if enemy_state == EnemyState.ALERT:
 			amount *= alert_speed_mult
 			anim_player.play("cat_run")
@@ -95,20 +95,21 @@ func estimate_target_position() -> Vector3:
 	return target.global_position + Vector3(rand_x, 0.0, rand_z)
 
 func keep_watch():
-	if can_hear_player() && enemy_state != EnemyState.ALERT:
-		looking_around = false
-		enemy_state = EnemyState.SUSPICIOUS
-		investigation_target = target.global_position
 	if can_see_player():
 		looking_around = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
-	var item_in_sight = look_for_items()
-	if item_in_sight != null:
-		print("ITEM DETECTED")
+	elif can_hear_player() && enemy_state != EnemyState.ALERT:
+		looking_around = false
 		enemy_state = EnemyState.SUSPICIOUS
-		investigation_target = item_in_sight.global_position
-		item_in_sight.remove_from_group("ActiveItems")
+		investigation_target = target.global_position
+	else:
+		var item_in_sight = look_for_items()
+		if item_in_sight != null:
+			print("ITEM DETECTED")
+			enemy_state = EnemyState.SUSPICIOUS
+			investigation_target = item_in_sight.global_position
+			item_in_sight.remove_from_group("ActiveItems")
 
 #sound array is Array[[origin: Vector3, radius: float]]
 func check_for_sounds(sound_array):
@@ -140,8 +141,14 @@ func can_see_player() -> bool:
 			var collider_hit = cast_ray(target.global_position)
 			if collider_hit != null:
 				if collider_hit is CharacterBody3D:
-#					print("i c")
 					return true
+				else:
+					print("something in the way")
+			else:
+				print("nothing")
+		else:
+			print("angle")
+	print("cant see")
 	return false
 	
 func look_for_items():
@@ -156,12 +163,14 @@ func look_for_items():
 
 func calculate_angle(_target: Vector3) -> float:
 	var forward_pos = cat.facing_direction
+	forward_pos.y = 0.0
 	var direction_to_target = _target - global_position
+	direction_to_target.y = 0.0
 	return forward_pos.angle_to(direction_to_target)
 
 func cast_ray(target: Vector3):
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(global_position, target)
+	var query = PhysicsRayQueryParameters3D.create(global_position, target, 0b0011)
 	var result = space_state.intersect_ray(query)
 	if result:
 		return result.collider

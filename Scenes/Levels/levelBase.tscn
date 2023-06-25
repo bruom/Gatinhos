@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bw8gy5ffprefa"]
+[gd_scene load_steps=10 format=3 uid="uid://bw8gy5ffprefa"]
 
 [ext_resource type="Script" path="res://Scripts/levelBase.gd" id="1_yk56j"]
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="2_ly2nx"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="2_t0v4f"]
 [ext_resource type="PackedScene" uid="uid://dmr1u7rosrxfr" path="res://Scenes/door.tscn" id="3_of3yr"]
 [ext_resource type="AudioStream" uid="uid://btgcis6dd5wr3" path="res://Assets/Sound/background_music (placeholder).wav" id="4_wf7c0"]
+[ext_resource type="MeshLibrary" uid="uid://w1jxwqkwec3g" path="res://Resources/level_meshes.tres" id="5_hij2x"]
 
 [sub_resource type="Environment" id="Environment_702uy"]
 
@@ -23,6 +24,7 @@ doorScene = ExtResource("3_of3yr")
 background_music = ExtResource("4_wf7c0")
 
 [node name="LevelMap" type="GridMap" parent="." groups=["level_mesh_region"]]
+mesh_library = ExtResource("5_hij2x")
 cell_size = Vector3(1, 1, 1)
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
@@ -52,3 +54,5 @@ mesh = SubResource("CapsuleMesh_ahy45")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStream_snh2q")
 autoplay = true
+
+[node name="Collisions" type="Node3D" parent="."]
