@@ -3,16 +3,16 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ctjyhdaipgbak"
-path.s3tc="res://.godot/imported/cat_UV_face_mat_Alpha.png-74082e6256eeba2243f9ef2b14741aa4.s3tc.ctex"
+path.etc2="res://.godot/imported/cat_UV_face_mat_Alpha.png-74082e6256eeba2243f9ef2b14741aa4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Textures/Cat/cat_UV_face_mat_Alpha.png"
-dest_files=["res://.godot/imported/cat_UV_face_mat_Alpha.png-74082e6256eeba2243f9ef2b14741aa4.s3tc.ctex"]
+dest_files=["res://.godot/imported/cat_UV_face_mat_Alpha.png-74082e6256eeba2243f9ef2b14741aa4.etc2.ctex"]
 
 [params]
 
