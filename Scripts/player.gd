@@ -1,4 +1,6 @@
-extends CharacterBody3D
+class_name Player extends CharacterBody3D
+
+signal on_hit(collider)
 
 @export var speed: float = 1.0
 @export var run_speed: float = 1.2
@@ -21,6 +23,15 @@ func _physics_process(delta):
 		look_at(global_position + velocity)
 		if !footsteps_SFX.playing && play_sfx:
 			footsteps_SFX.play()
-		move_and_slide()
 	else:
 		current_sound_radius = 0.0
+	
+	move_and_slide()
+	_process_collision()
+
+func _process_collision():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		on_hit.emit(collider)
+			

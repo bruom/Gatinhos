@@ -1,10 +1,13 @@
 class_name LevelBase extends Node3D
 
+signal on_player_hit(collider)
+signal on_player_enter_finish_area
+
 @export var playerScene: PackedScene
 @export var doorScene: PackedScene
 @export var background_music: AudioStream
 
-var playerNode: Node3D 
+var playerNode: Player 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,13 +26,13 @@ func _create_player():
 	playerNode = playerScene.instantiate()
 	add_child(playerNode)
 	playerNode.position = $PlayerStart.position
-	
+	playerNode.on_hit.connect(func(collider): on_player_hit.emit(collider))
+
 func _create_enemy_nodes():
 	var enemyNodes = $Enemies.get_children()
 	for enemy in enemyNodes:
 		enemy.target = playerNode
 	
-
 func _create_finish_nodes():
 	var id = $LevelMap.mesh_library.find_item_by_name("Finish")
 	var finishPositions = $LevelMap.get_used_cells_by_item(id)
@@ -38,20 +41,23 @@ func _create_finish_nodes():
 		var area = Area3D.new()
 		var collision3D = CollisionShape3D.new()
 		collision3D.shape = BoxShape3D.new()
+		
+		area.body_entered.connect(func(node): if node == playerNode: on_player_enter_finish_area.emit())
+		
 		area.add_child(collision3D)
 		area.set_collision_layer_value(0b0001, true)
-		area.body_entered.connect(Callable(self, "player_entered_finish_tile"))
-		add_child(area)
-		area.position = grid_to_scene_position(finishGridPosition)
-		
 		area.set_collision_mask_value(1, false)
 		area.set_collision_mask_value(2, true)
 		
+		add_child(area)
+		
+		area.position = grid_to_scene_position(finishGridPosition)
+		
 		$LevelMap.set_cell_item(finishGridPosition, -1)
 		
-#		var meshInstance = MeshInstance3D.new()
-#		meshInstance.mesh = BoxMesh.new()
-#		area.add_child(meshInstance)
+		var meshInstance = MeshInstance3D.new()
+		meshInstance.mesh = BoxMesh.new()
+		area.add_child(meshInstance)
 
 func _create_door_nodes():
 	var id = $LevelMap.mesh_library.find_item_by_name("DoorX")
@@ -72,13 +78,5 @@ func _create_door(gridPosition, rotation = 0):
 	door.position = grid_to_scene_position(gridPosition, Vector3(0.5, 0, 0.5))
 	door.rotation.y = rotation
 	
-func player_entered_finish_tile(node):
-	if node == playerNode:
-		print("WOW!")	
-
 func grid_to_scene_position(gridPosition, offset = Vector3(0.5, 0.5, 0.5)) -> Vector3:
 	return Vector3(gridPosition.x, gridPosition.y, gridPosition.z) + offset
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
