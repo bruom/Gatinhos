@@ -1,6 +1,7 @@
 class_name LevelBase extends Node3D
 
 signal on_player_hit(collider)
+signal on_enemy_hit(collider)
 signal on_player_enter_finish_area
 signal noise_emitted(node: Node3D, origin: Vector3, strength: float)
 
@@ -39,7 +40,8 @@ func _create_enemy_nodes():
 	for enemy in enemyNodes:
 		enemy.target = playerNode
 		playerNode.noise_emitter.noise_emitted.connect(Callable(enemy, "check_for_sound"))
-	
+		enemy.on_hit.connect(func(collider): on_enemy_hit.emit(collider))
+
 func _create_finish_nodes():
 	var id = $LevelMap.mesh_library.find_item_by_name("Finish")
 	var finishPositions = $LevelMap.get_used_cells_by_item(id)

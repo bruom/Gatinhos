@@ -4,6 +4,7 @@ extends Node3D
 @onready var scene_loader: SceneLoader = $SceneLoader
 
 const ENEMY_COLLISION_LAYER = 0b0100
+const PLAYER_COLLISION_LAYER = 0b0010
 
 @export_range(1, 2) var current_level: int = 1
 		
@@ -20,6 +21,7 @@ func _process(_delta):
 func show_level(scene: PackedScene):
 	current_scene = scene.instantiate()
 	current_scene.on_player_hit.connect(Callable(player_was_hit))
+	current_scene.on_enemy_hit.connect(Callable(enemy_did_hit))
 	current_scene.on_player_enter_finish_area.connect(Callable(player_did_finished))
 	add_child(current_scene)
 	loading.hide()
@@ -35,6 +37,10 @@ func player_did_finished():
 	current_level = next_level
 	load_level(next_level)
 	print("WOW! SUCH WIN!")
+
+func enemy_did_hit(collider):
+	if collider.collision_layer == PLAYER_COLLISION_LAYER:
+		current_scene.get_tree().reload_current_scene()
 
 func player_was_hit(collider):
 	if collider.collision_layer == ENEMY_COLLISION_LAYER:

@@ -13,6 +13,8 @@ class_name Enemy extends CharacterBody3D
 @export var patrol_route: Array[Vector3] = []
 @export var facing_directions: Array[Vector3] = []
 
+signal on_hit(collider)
+
 var current_patrol_index: int = 0
 var mesh_instance: MeshInstance3D
 var enemy_state: EnemyState = EnemyState.IDLE:
@@ -87,8 +89,15 @@ func move_if_needed(next_pos: Vector3, amount: float):
 		look_at(global_position + dir)
 		velocity = dir.normalized() * amount
 		move_and_slide()
+		_process_collision()
 	else:
 		anim_player.play("cat_idle")
+
+func _process_collision():
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		on_hit.emit(collider)
 
 func estimate_target_position() -> Vector3:
 	var rand_x = randf_range(-1.0, 1.0)
