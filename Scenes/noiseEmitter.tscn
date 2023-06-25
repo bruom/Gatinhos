@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3dcms56mxnkf"]
+
+[ext_resource type="Script" path="res://Scripts/noiseEmitter.gd" id="1_l3kfi"]
+
+[node name="NoiseEmitter" type="Node3D"]
+script = ExtResource("1_l3kfi")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
