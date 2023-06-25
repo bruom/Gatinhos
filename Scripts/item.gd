@@ -7,6 +7,13 @@ enum ItemType {
 var player: CharacterBody3D
 var interactable = false
 var active = false
+var effect_time: float = 0
+
+func _ready():
+	if item_type == 1:
+		get_node("Hitbox/ItemMesh").mesh.material.albedo_color = Color(0, 0, 255, 255)
+	if item_type == 2:
+		get_node("Hitbox/ItemMesh").mesh.material.albedo_color = Color(0, 255, 0, 255)
 
 func _input(event):
 	if interactable && event.is_action_pressed("Interact"):
@@ -28,7 +35,9 @@ func item_effect():
 		print("Item in effect: " + str(item_type))
 		add_to_group("ActiveItems")
 		if item_type == 1:
-			return
+			effect_time = 0.5
+			get_node("Hitbox/ItemMesh").mesh.material.albedo_color = Color(0, 0, 255, 255)
 		elif item_type == 2:
-			return
+			effect_time = 4
+			get_node("Hitbox/ItemMesh").mesh.material.albedo_color = Color(0, 255, 0, 255)
 

@@ -100,6 +100,7 @@ func keep_watch():
 		print("ITEM DETECTED")
 		enemy_state = EnemyState.SUSPICIOUS
 		investigation_target = item_in_sight.global_position
+		investigation_time = item_in_sight.effect_time
 		item_in_sight.remove_from_group("ActiveItems")
 
 #sound array is Array[[origin: Vector3, radius: float]]

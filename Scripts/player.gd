@@ -70,6 +70,7 @@ func use_item(item_type):
 		get_parent().add_child(new_item)
 		new_item.position = self.global_position
 		new_item.position.y += 0.1
+		new_item.item_type = item_type
 		new_item.active = true
 		new_item.item_effect()
 	else:
