@@ -1,13 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbgwftqyu6xhq"]
+[gd_scene load_steps=3 format=3 uid="uid://cbgwftqyu6xhq"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_0q6mp"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_djtmh"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_auvwt"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wrunl"]
-albedo_color = Color(1, 1, 0.192157, 1)
 
 [node name="enemy" type="CharacterBody3D"]
 collision_layer = 4
@@ -16,8 +10,14 @@ axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 script = ExtResource("1_0q6mp")
-alert_material = SubResource("StandardMaterial3D_auvwt")
-suspicious_material = SubResource("StandardMaterial3D_wrunl")
+
+[node name="overhead_label" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.980707, 2.08165e-12)
+billboard = 1
+render_priority = 1
+outline_render_priority = 0
+modulate = Color(1, 0.203922, 0.333333, 1)
+font_size = 72
 
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 path_desired_distance = 0.3

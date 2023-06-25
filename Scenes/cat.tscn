@@ -1,11 +1,18 @@
-[gd_scene load_steps=15 format=3 uid="uid://bavl8tqj08fh1"]
+[gd_scene load_steps=25 format=3 uid="uid://bavl8tqj08fh1"]
 
+[ext_resource type="Script" path="res://Scripts/cat.gd" id="1_0txdu"]
 [ext_resource type="Animation" uid="uid://2fr1iswmxstb" path="res://Assets/Anims/cat_idle.res" id="1_5rvow"]
+[ext_resource type="Shader" path="res://Resources/Shaders/flat_shading.gdshader" id="1_wsmyi"]
 [ext_resource type="Animation" uid="uid://b3gy060dqk3xg" path="res://Assets/Anims/cat_sneak.res" id="2_d7uud"]
+[ext_resource type="Texture2D" uid="uid://ctjyhdaipgbak" path="res://Assets/Textures/Cat/cat_UV_face_mat_Alpha.png" id="2_r3b6q"]
 [ext_resource type="Animation" uid="uid://ch4xg4shchcwy" path="res://Assets/Anims/cat_look.res" id="3_b7d0y"]
+[ext_resource type="Texture2D" uid="uid://bq0uc8stis1q4" path="res://Assets/Textures/Cat/cat_UV_face_mat_BaseColor.png" id="3_ths5r"]
+[ext_resource type="Texture2D" uid="uid://k3dm0svxp3i" path="res://Assets/Textures/Cat/cat_UV_body_mat_Alpha.png" id="4_j372o"]
 [ext_resource type="Animation" uid="uid://cyda01lbeg6d4" path="res://Assets/Anims/cat_walk.res" id="4_ycnaw"]
 [ext_resource type="Animation" uid="uid://ohl7ybufg6f7" path="res://Assets/Anims/cat_run.res" id="5_6f5gy"]
+[ext_resource type="Texture2D" uid="uid://dcyh34e8sx8nr" path="res://Assets/Textures/Cat/cat_UV_body_mat_BaseColor.png" id="5_k1h0q"]
 [ext_resource type="Animation" uid="uid://cwl0vev2f3v8k" path="res://Assets/Anims/cat_pick.res" id="6_fcvco"]
+[ext_resource type="Shader" path="res://Resources/Shaders/tail_motion.gdshader" id="6_jj6ii"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_25q23"]
 height = 1.0
@@ -137,6 +144,20 @@ bind/24/name = &"mixamorig_RightToe_End"
 bind/24/bone = -1
 bind/24/pose = Transform3D(-95.6672, -10.252, -27.2523, -27.4266, 0.303045, 96.1649, -9.77627, 99.4727, -3.10169, -6.40179, -7.05906, -0.663235)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojdgd"]
+render_priority = 0
+shader = ExtResource("1_wsmyi")
+shader_parameter/uv_offset = null
+shader_parameter/mainTex = ExtResource("3_ths5r")
+shader_parameter/alphaTex = ExtResource("2_r3b6q")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1oe1i"]
+render_priority = 0
+shader = ExtResource("1_wsmyi")
+shader_parameter/uv_offset = null
+shader_parameter/mainTex = ExtResource("5_k1h0q")
+shader_parameter/alphaTex = ExtResource("4_j372o")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05f5k"]
 resource_name = "tail_mat.005"
 cull_mode = 2
@@ -163,6 +184,12 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_umn07"]
+render_priority = 0
+shader = ExtResource("6_jj6ii")
+shader_parameter/motion_speed = null
+shader_parameter/motion_amount = null
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vtcv0"]
 _data = {
 "cat_idle": ExtResource("1_5rvow"),
@@ -176,12 +203,13 @@ _data = {
 [node name="cat" type="CollisionShape3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.489416, 0)
 shape = SubResource("CylinderShape3D_25q23")
+script = ExtResource("1_0txdu")
 
 [node name="cat" type="Node3D" parent="."]
 transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, -0.495691, 2.08165e-12)
 
 [node name="Armature001" type="Node3D" parent="cat"]
-transform = Transform3D(0.01, 0, 0, 0, -3.57628e-09, -0.01, 0, 0.01, -3.57628e-09, 0, 0, 0)
+transform = Transform3D(0.01, 0, 0, 0, -4.37114e-10, -0.01, 0, 0.01, -4.37114e-10, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="cat/Armature001"]
 bones/0/name = "mixamorig_Hips"
@@ -361,12 +389,16 @@ bones/24/rotation = Quaternion(-1.96742e-08, -8.26549e-08, 5.82295e-08, 1)
 bones/24/scale = Vector3(1, 1, 1)
 
 [node name="cat01_base001" type="MeshInstance3D" parent="cat/Armature001/Skeleton3D"]
+transform = Transform3D(1, -1.90378e-13, 5.56602e-20, 2.434e-15, 1, 4.02594e-13, 5.63962e-22, -5.4996e-14, 1, -0.0188708, 0.216487, 0.141752)
 mesh = SubResource("ArrayMesh_vcla8")
 skin = SubResource("Skin_ods57")
+surface_material_override/0 = SubResource("ShaderMaterial_ojdgd")
+surface_material_override/1 = SubResource("ShaderMaterial_1oe1i")
 
 [node name="cat_tail001" type="MeshInstance3D" parent="cat/Armature001/Skeleton3D"]
 mesh = SubResource("ArrayMesh_550cj")
 skin = SubResource("Skin_ods57")
+surface_material_override/0 = SubResource("ShaderMaterial_umn07")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="cat"]
 playback_default_blend_time = 0.2

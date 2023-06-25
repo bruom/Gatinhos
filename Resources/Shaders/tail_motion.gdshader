@@ -1,8 +1,13 @@
 shader_type spatial;
 render_mode cull_back;
 
+uniform float motion_speed = 1.0;
+uniform float motion_amount = 1.0;
+
 void vertex() {
-	VERTEX.z = VERTEX.z + (0.3 * VERTEX.y * cos(VERTEX.y + TIME));
+	if(VERTEX.y < -15.0){
+		VERTEX.z = VERTEX.z + 8.0 * motion_amount * cos(TIME * motion_speed + VERTEX.y * 0.05);
+	}
 }
 
 void fragment() {
