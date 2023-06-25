@@ -1,17 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bw8gy5ffprefa"]
+[gd_scene load_steps=9 format=3 uid="uid://bw8gy5ffprefa"]
 
 [ext_resource type="Script" path="res://Scripts/levelBase.gd" id="1_yk56j"]
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="2_ly2nx"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="2_t0v4f"]
 [ext_resource type="PackedScene" uid="uid://dmr1u7rosrxfr" path="res://Scenes/door.tscn" id="3_of3yr"]
 [ext_resource type="AudioStream" uid="uid://btgcis6dd5wr3" path="res://Assets/Sound/background_music (placeholder).wav" id="4_wf7c0"]
-
-[sub_resource type="NavigationMesh" id="NavigationMesh_sty5q"]
-geometry_source_geometry_mode = 1
-geometry_source_group_name = &"level_mesh_region"
-agent_height = 2.0
-agent_radius = 0.25
-agent_max_climb = 0.0
 
 [sub_resource type="Environment" id="Environment_702uy"]
 
@@ -23,14 +16,11 @@ rings = 4
 
 [sub_resource type="AudioStream" id="AudioStream_snh2q"]
 
-[node name="LevelBase" type="Node3D"]
+[node name="LevelBase2" type="Node3D"]
 script = ExtResource("1_yk56j")
 playerScene = ExtResource("2_ly2nx")
 doorScene = ExtResource("3_of3yr")
 background_music = ExtResource("4_wf7c0")
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = SubResource("NavigationMesh_sty5q")
 
 [node name="LevelMap" type="GridMap" parent="." groups=["level_mesh_region"]]
 cell_size = Vector3(1, 1, 1)
