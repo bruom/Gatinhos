@@ -1,11 +1,11 @@
 extends CharacterBody3D
 
 @onready var nav_agent: NavigationAgent3D = $nav_agent
+@onready var cat: Cat = $cat
 @onready var anim_player: AnimationPlayer = get_node("cat/cat/AnimationPlayer")
+@onready var overhead_label: Label3D = $overhead_label
 
 @export var target: Node3D
-@export var alert_material: Material
-@export var suspicious_material: Material
 @export var vision_angle: float = 60
 @export var speed: float = 1.0
 @export var alert_speed_mult: float = 1.5
@@ -17,6 +17,12 @@ var mesh_instance: MeshInstance3D
 var enemy_state: EnemyState = EnemyState.IDLE:
 	set(value):
 		enemy_state = value
+		if value == EnemyState.ALERT:
+			set_overhead_label("!", Color.RED)
+		elif value == EnemyState.SUSPICIOUS:
+			set_overhead_label("?", Color.GOLD)
+		else:
+			set_overhead_label("", Color.WHITE)
 
 var chase_target
 var investigation_target
@@ -66,8 +72,10 @@ func move_if_needed(next_pos: Vector3, amount: float):
 		if enemy_state == EnemyState.ALERT:
 			amount *= alert_speed_mult
 			anim_player.play("cat_run")
+			cat.set_tail_motion_parameters(1.5, 1.0)
 		else:
 			anim_player.play("cat_walk")
+			cat.set_tail_motion_parameters(1.0, 1.0)
 		look_at(global_position + dir)
 		velocity = dir.normalized() * amount
 		move_and_slide()
@@ -138,9 +146,9 @@ func look_for_items():
 				return item
 	return null
 
-func calculate_angle(target: Vector3) -> float:
-	var forward_pos = -global_transform.basis.z
-	var direction_to_target = target - global_position
+func calculate_angle(_target: Vector3) -> float:
+	var forward_pos = cat.facing_direction
+	var direction_to_target = _target - global_position
 	return forward_pos.angle_to(direction_to_target)
 
 func cast_ray(target: Vector3):
@@ -149,3 +157,7 @@ func cast_ray(target: Vector3):
 	var result = space_state.intersect_ray(query)
 	if result:
 		return result.collider
+
+func set_overhead_label(text: String, color: Color):
+	overhead_label.text = text
+	overhead_label.modulate = color

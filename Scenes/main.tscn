@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ck8c4wfr2f15y"]
+[gd_scene load_steps=11 format=3 uid="uid://ck8c4wfr2f15y"]
 
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_dacn3"]
 [ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_vbsvv"]
@@ -32,9 +32,6 @@ size = Vector3(2, 2, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ov0d7"]
 size = Vector3(2, 2, 2)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1lcf7"]
-albedo_color = Color(1, 0.396078, 0.329412, 1)
 
 [node name="Main" type="Node3D"]
 
@@ -84,6 +81,5 @@ shape = SubResource("BoxShape3D_ov0d7")
 [node name="enemy" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_vbsvv")]
 transform = Transform3D(-0.809735, -3.48787e-16, -0.586796, -7.77579e-17, 1, -4.87092e-16, 0.586796, -3.48787e-16, -0.809735, 1.6494, -4.68082e-19, -1.7857)
 target = NodePath("../Player")
-alert_material = SubResource("StandardMaterial3D_1lcf7")
 speed = 2.1
 patrol_route = Array[Vector3]([Vector3(3, 2.08165e-12, -3), Vector3(3.5, 2.08165e-12, 4), Vector3(-2, 2.08165e-12, 1)])

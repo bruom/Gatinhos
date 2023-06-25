@@ -2,6 +2,7 @@ class_name Player extends CharacterBody3D
 
 signal on_hit(collider)
 
+@onready var cat: Cat = $cat
 @onready var anim_player: AnimationPlayer = get_node("cat/cat/AnimationPlayer")
 @onready var footsteps_SFX = get_node("Footsteps SFX")
 
@@ -17,7 +18,7 @@ var items = {
 	2: 0  #Catnip
 }
 
-func _physics_process(delta):
+func _process(delta):
 	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	var direciton: Vector2 = Input.get_vector("Left", "Right", "Forward", "Backward")
 	velocity = Vector3(direciton.x, 0.0, direciton.y).normalized() * speed
@@ -26,11 +27,14 @@ func _physics_process(delta):
 		if Input.is_action_pressed("Run"):
 			anim_player.play("cat_run")
 			velocity = velocity * run_speed;
+			cat.set_tail_motion_parameters(1.5, 1.0)
 		elif Input.is_action_pressed("Sneak"):
 			anim_player.play("cat_sneak")
 			velocity = velocity * sneak_speed;
+			cat.set_tail_motion_parameters(1.0, 0.7)
 		else:
 			anim_player.play("cat_walk")
+			cat.set_tail_motion_parameters(1.0, 1.0)
 		current_sound_radius = sound_radius
 		look_at(global_position + velocity)
 		if !footsteps_SFX.playing && play_sfx:
