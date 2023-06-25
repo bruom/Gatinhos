@@ -1,7 +1,5 @@
 extends Node3D
 
-signal sound_emitted
-
 @onready var loading: Loading = $Loading
 @onready var scene_loader: SceneLoader = $SceneLoader
 
@@ -16,12 +14,8 @@ func _ready():
 	scene_loader.scene_loading.connect(func(progress: float): loading.update_progress(progress))
 	load_level(current_level)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
-
-func register_sound_source(source, point, radius):
-	sound_emitted.emit(point, radius)
 
 func show_level(scene: PackedScene):
 	current_scene = scene.instantiate()

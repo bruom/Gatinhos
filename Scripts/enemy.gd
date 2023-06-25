@@ -1,4 +1,4 @@
-extends CharacterBody3D
+class_name Enemy extends CharacterBody3D
 
 @onready var nav_agent: NavigationAgent3D = $nav_agent
 @onready var cat: Cat = $cat
@@ -25,7 +25,7 @@ var enemy_state: EnemyState = EnemyState.IDLE:
 			set_overhead_label("", Color.WHITE)
 
 var chase_target
-var investigation_target
+var investigation_target: Vector3
 var remaining_investigation_time: float = 0.0
 var investigating: bool = false
 
@@ -88,7 +88,7 @@ func estimate_target_position() -> Vector3:
 	return target.global_position + Vector3(rand_x, 0.0, rand_z)
 
 func keep_watch():
-	if can_hear_player() && enemy_state != EnemyState.ALERT:
+	if enemy_state != EnemyState.ALERT:
 		enemy_state = EnemyState.SUSPICIOUS
 		investigation_target = target.global_position
 	if can_see_player():
@@ -101,12 +101,6 @@ func check_for_sounds(sound_array):
 	for sound in sound_array:
 		if global_position.distance_squared_to(sound[0]) < sound[1] * sound[1]:
 			print("i hear you")
-
-func can_hear_player() -> bool:
-	if target != null:
-		if global_position.distance_to(target.global_position) < target.current_sound_radius:
-			return true
-	return false
 
 func has_reached_point(waypoint: Vector3) -> bool:
 	return waypoint.distance_squared_to(global_position) < 0.3
@@ -144,3 +138,9 @@ func cast_ray(target: Vector3):
 func set_overhead_label(text: String, color: Color):
 	overhead_label.text = text
 	overhead_label.modulate = color
+
+func check_for_sound(origin: Vector3, strength: float):
+	if target != null:
+		if global_position.distance_to(origin) < strength:
+			enemy_state = EnemyState.SUSPICIOUS
+			investigation_target = origin
