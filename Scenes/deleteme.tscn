@@ -1,13 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://mmvjna68huvr"]
+[gd_scene load_steps=4 format=3 uid="uid://mmvjna68huvr"]
 
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_tdawx"]
 [ext_resource type="PackedScene" uid="uid://dmr1u7rosrxfr" path="res://Scenes/door.tscn" id="2_gw25u"]
+[ext_resource type="PackedScene" uid="uid://5thv6qle75qj" path="res://Scenes/item.tscn" id="3_jxqvo"]
 
 [node name="deleteme" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-current = true
+transform = Transform3D(1, 0, 0, 0, 0.875591, 0.483053, 0, -0.483053, 0.875591, 0, 1.5906, 3.28754)
 
 [node name="Player" parent="." instance=ExtResource("1_tdawx")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 1.76982)
@@ -16,3 +16,6 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 1.76982)
 
 [node name="Door2" parent="." instance=ExtResource("2_gw25u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.74274, 0, 0)
+
+[node name="Item" parent="." instance=ExtResource("3_jxqvo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.971795)

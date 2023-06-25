@@ -1,18 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://nkh8gcim1mk4"]
+[gd_scene load_steps=5 format=3 uid="uid://nkh8gcim1mk4"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_keg1m"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_obngv"]
 [ext_resource type="AudioStream" uid="uid://cexaxjjjkjh0c" path="res://Assets/Sound/footstep (placeholder).wav" id="3_p84ql"]
+[ext_resource type="PackedScene" uid="uid://5thv6qle75qj" path="res://Scenes/item.tscn" id="4_1e70m"]
 
 [node name="Player" type="CharacterBody3D"]
-collision_layer = 2
-collision_mask = 7
-axis_lock_linear_y = true
-axis_lock_angular_x = true
-axis_lock_angular_z = true
 script = ExtResource("1_keg1m")
 run_speed = 2.0
 play_sfx = false
+item_placer = ExtResource("4_1e70m")
 
 [node name="cat" parent="." instance=ExtResource("2_obngv")]
 

@@ -87,6 +87,12 @@ func keep_watch():
 		investigating = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
+	var item_in_sight = look_for_items()
+	if item_in_sight != null:
+		print("ITEM DETECTED")
+		enemy_state = EnemyState.SUSPICIOUS
+		investigation_target = item_in_sight.global_position
+		item_in_sight.remove_from_group("ActiveItems")
 
 #sound array is Array[[origin: Vector3, radius: float]]
 func check_for_sounds(sound_array):
@@ -118,9 +124,19 @@ func can_see_player() -> bool:
 			var collider_hit = cast_ray(target.global_position)
 			if collider_hit != null:
 				if collider_hit is CharacterBody3D:
-					print("i c")
+#					print("i c")
 					return true
 	return false
+	
+func look_for_items():
+	var level_items = get_parent().get_tree().get_nodes_in_group("ActiveItems")
+	for item in level_items:
+		var angle_to_target = rad_to_deg(calculate_angle(item.global_position))
+		if angle_to_target < vision_angle / 2.0:
+			var collider_hit = cast_ray(item.global_position)
+			if collider_hit != null:
+				return item
+	return null
 
 func calculate_angle(target: Vector3) -> float:
 	var forward_pos = -global_transform.basis.z
