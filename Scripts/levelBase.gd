@@ -30,6 +30,7 @@ func _create_collisions():
 func _create_player():
 	playerNode = playerScene.instantiate()
 	add_child(playerNode)
+	
 	playerNode.position = $PlayerStart.position
 	playerNode.on_hit.connect(func(collider): on_player_hit.emit(collider))
 

@@ -29,6 +29,7 @@ var chase_target
 var investigation_target: Vector3
 var remaining_looking_around_time: float = 0.0
 var looking_around: bool = false
+var sound_heard
 
 enum EnemyState {
 	IDLE,
@@ -95,14 +96,15 @@ func estimate_target_position() -> Vector3:
 	return target.global_position + Vector3(rand_x, 0.0, rand_z)
 
 func keep_watch():
-	if enemy_state != EnemyState.ALERT:
-		looking_around = false
-		enemy_state = EnemyState.SUSPICIOUS
-		investigation_target = target.global_position
 	if can_see_player():
 		looking_around = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
+	elif sound_heard != null && enemy_state != EnemyState.ALERT:
+		looking_around = false
+		enemy_state = EnemyState.SUSPICIOUS
+		investigation_target = sound_heard
+		sound_heard = null
 	else:
 		var item_in_sight = look_for_items()
 		if item_in_sight != null:
@@ -176,6 +178,4 @@ func set_overhead_label(text: String, color: Color):
 func check_for_sound(origin: Vector3, strength: float):
 	if target != null:
 		if global_position.distance_to(origin) < strength:
-			print("ENEMY: HEARD SOMETHING")
-			enemy_state = EnemyState.SUSPICIOUS
-			investigation_target = origin
+			sound_heard = origin

@@ -7,8 +7,8 @@ signal noise_emitted(origin: Vector3, strength: float)
 
 #@onready var mesh_instance_3d: MeshInstance3D = $MeshInstance3D
 
-func emit_noise(strenght: float = 1):
-	noise_emitted.emit(global_position, strenght)
+func emit_noise(strength: float = 1):
+	noise_emitted.emit(global_position, strength)
 	play_sound()
 	
 #	var shape = CylinderMesh.new()
