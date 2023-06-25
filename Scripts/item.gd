@@ -26,7 +26,7 @@ func _on_hitbox_body_exited(body):
 func item_effect():
 	if active:
 		print("Item in effect: " + str(item_type))
-		get_parent().add_to_group("ActiveItems")
+		add_to_group("ActiveItems")
 		if item_type == 1:
 			return
 		elif item_type == 2:

@@ -137,7 +137,7 @@ func can_see_player() -> bool:
 	return false
 	
 func look_for_items():
-	var level_items = get_parent().get_tree().get_nodes_in_group("ActiveItems")
+	var level_items = get_tree().get_nodes_in_group("ActiveItems")
 	for item in level_items:
 		var angle_to_target = rad_to_deg(calculate_angle(item.global_position))
 		if angle_to_target < vision_angle / 2.0:

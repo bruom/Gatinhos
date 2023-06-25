@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://ck8c4wfr2f15y"]
+[gd_scene load_steps=12 format=3 uid="uid://ck8c4wfr2f15y"]
 
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_dacn3"]
 [ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_vbsvv"]
+[ext_resource type="PackedScene" uid="uid://5thv6qle75qj" path="res://Scenes/item.tscn" id="3_htqcn"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_gqfv8"]
 ground_color = Color(0.443137, 0.490196, 0.34902, 1)
@@ -83,3 +84,6 @@ transform = Transform3D(-0.809735, -3.48787e-16, -0.586796, -7.77579e-17, 1, -4.
 target = NodePath("../Player")
 speed = 2.1
 patrol_route = Array[Vector3]([Vector3(3, 2.08165e-12, -3), Vector3(3.5, 2.08165e-12, 4), Vector3(-2, 2.08165e-12, 1)])
+
+[node name="Item" parent="." instance=ExtResource("3_htqcn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42837, 0.1, 0)
