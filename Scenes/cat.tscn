@@ -16,7 +16,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ri0hy"]
 radius = 0.25
-height = 1.0
+height = 10.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36tef"]
 resource_name = "Cat_Face.005"

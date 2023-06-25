@@ -31,7 +31,7 @@ size = 15.0
 transform = Transform3D(0.939361, 0.122403, -0.32034, 0.339322, -0.196629, 0.91989, 0.0496093, -0.972808, -0.22624, 0, 5.28734, 0)
 
 [node name="PlayerStart" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.478012, 0.903471, -7.38783)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.478012, 1.23963, -7.38783)
 
 [node name="MeshInstance3D" parent="PlayerStart" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

@@ -4,5 +4,3 @@
 
 [node name="NoiseEmitter" type="Node3D"]
 script = ExtResource("1_l3kfi")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
