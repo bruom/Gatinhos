@@ -75,6 +75,6 @@ func use_item(item_type):
 		new_item.position.y += 0.1
 		new_item.item_type = item_type
 		new_item.active = true
-		new_item.item_effect()
+		new_item.item_placed()
 	else:
 		print("No item of type: " + str(item_type))

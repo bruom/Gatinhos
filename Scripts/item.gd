@@ -7,7 +7,6 @@ enum ItemType {
 var player: CharacterBody3D
 var interactable = false
 var active = false
-var effect_time: float = 0
 
 func _ready():
 	if item_type == 1:
@@ -25,19 +24,21 @@ func _on_hitbox_body_entered(body):
 	if body.name == "Player":
 		interactable = true
 		player = body
+	elif "enemy" in body.name && self.active:
+		body.trigger_item(item_type)
+		remove_from_group("ActiveItems")
+		self.queue_free()
 		
 func _on_hitbox_body_exited(body):
 	if body.name == "Player":
 		interactable = false
 
-func item_effect():
-	if active:
-		print("Item in effect: " + str(item_type))
+func item_placed():
+	if self.active:
+		print("Item placed: " + str(item_type))
 		add_to_group("ActiveItems")
 		if item_type == 1:
-			effect_time = 0.5
 			get_node("Hitbox/ItemMesh").mesh.material.albedo_color = Color(0, 0, 255, 255)
 		elif item_type == 2:
-			effect_time = 4
 			get_node("Hitbox/ItemMesh").mesh.material.albedo_color = Color(0, 255, 0, 255)
 

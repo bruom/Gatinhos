@@ -20,7 +20,7 @@ var enemy_state: EnemyState = EnemyState.IDLE:
 		enemy_state = value
 		if value == EnemyState.ALERT:
 			set_overhead_label("!", Color.RED)
-		elif value == EnemyState.SUSPICIOUS:
+		elif value == EnemyState.SUSPICIOUS || value == EnemyState.INTERESTED:
 			set_overhead_label("?", Color.GOLD)
 		else:
 			set_overhead_label("", Color.WHITE)
@@ -33,10 +33,22 @@ var looking_around: bool = false
 enum EnemyState {
 	IDLE,
 	SUSPICIOUS,
-	ALERT
+	ALERT,
+	INTERESTED,
+	UNDER_ITEM_EFFECT
 }
 
+var previous_state: EnemyState = 0
+var item_effect_time: float = 0.0
+
 func _physics_process(delta):
+	if enemy_state == EnemyState.UNDER_ITEM_EFFECT:
+		item_effect_time = item_effect_time - delta
+		if item_effect_time > 0.0:
+			return
+		else:
+			enemy_state = previous_state
+	
 	var next_pos = nav_agent.get_next_path_position()
 	anim_player.current_animation_position
 	keep_watch()
@@ -58,6 +70,12 @@ func _physics_process(delta):
 				if has_reached_point(investigation_target):
 					enemy_state = EnemyState.IDLE
 					start_looking_around()
+		elif enemy_state == EnemyState.INTERESTED:
+			if investigation_target != null && investigation_target is Vector3:
+				nav_agent.target_position = investigation_target
+#				if has_reached_point(investigation_target):
+#					previous_state = EnemyState.IDLE
+#					enemy_state = EnemyState.UNDER_ITEM_EFFECT
 		elif enemy_state == EnemyState.IDLE:
 			if !patrol_route.is_empty():
 				var next_patrol_position = get_next_patrol_waypoint()
@@ -103,13 +121,13 @@ func keep_watch():
 		looking_around = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
-	var item_in_sight = look_for_items()
-	if item_in_sight != null:
-		print("ITEM DETECTED")
-		enemy_state = EnemyState.SUSPICIOUS
-		investigation_target = item_in_sight.global_position
-		investigation_time = item_in_sight.effect_time
-		item_in_sight.remove_from_group("ActiveItems")
+	elif enemy_state != EnemyState.INTERESTED && enemy_state != EnemyState.UNDER_ITEM_EFFECT:
+		var item_in_sight = look_for_items()
+		if item_in_sight != null:
+			looking_around = false
+			previous_state = enemy_state
+			enemy_state = EnemyState.INTERESTED
+			investigation_target = item_in_sight.global_position
 
 #sound array is Array[[origin: Vector3, radius: float]]
 func check_for_sounds(sound_array):
@@ -154,6 +172,13 @@ func look_for_items():
 			if collider_hit != null:
 				return item
 	return null
+	
+func trigger_item(item_type):
+	enemy_state = EnemyState.UNDER_ITEM_EFFECT
+	if item_type == 1:
+		item_effect_time = 0.5
+	if item_type == 2:
+		item_effect_time = 4.0
 
 func calculate_angle(_target: Vector3) -> float:
 	var forward_pos = cat.facing_direction

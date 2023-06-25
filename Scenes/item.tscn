@@ -32,6 +32,7 @@ collision_layer = 8
 shape = SubResource("CylinderShape3D_wwqji")
 
 [node name="Hitbox" type="Area3D" parent="."]
+collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("CylinderShape3D_bfdpw")
