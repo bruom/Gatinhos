@@ -16,9 +16,6 @@ func _ready():
 	_create_finish_nodes()
 	_create_door_nodes()
 	
-	$NavigationRegion3D.navigation_mesh.geometry_source_group_name = "level_mesh_region";
-	$NavigationRegion3D.bake_navigation_mesh()
-	
 	$AudioStreamPlayer.stream = background_music
 	$AudioStreamPlayer.play()
 		
@@ -42,16 +39,16 @@ func _create_finish_nodes():
 		var collision3D = CollisionShape3D.new()
 		collision3D.shape = BoxShape3D.new()
 		
-		area.body_entered.connect(func(node): if node == playerNode: on_player_enter_finish_area.emit())
-		
 		area.add_child(collision3D)
 		area.set_collision_layer_value(0b0001, true)
-		area.set_collision_mask_value(1, false)
-		area.set_collision_mask_value(2, true)
+		area.set_collision_mask_value(0b0001, false)
+		area.set_collision_mask_value(0b0010, true)
+		
+		area.body_entered.connect(func(node): if node is Player: on_player_enter_finish_area.emit())
 		
 		add_child(area)
 		
-		area.position = grid_to_scene_position(finishGridPosition)
+		area.position = _grid_to_scene_position(finishGridPosition)
 		
 		$LevelMap.set_cell_item(finishGridPosition, -1)
 		
@@ -75,8 +72,8 @@ func _create_door_nodes():
 func _create_door(gridPosition, rotation = 0):
 	var door = doorScene.instantiate()
 	add_child(door)
-	door.position = grid_to_scene_position(gridPosition, Vector3(0.5, 0, 0.5))
+	door.position = _grid_to_scene_position(gridPosition, Vector3(0.5, 0, 0.5))
 	door.rotation.y = rotation
 	
-func grid_to_scene_position(gridPosition, offset = Vector3(0.5, 0.5, 0.5)) -> Vector3:
+func _grid_to_scene_position(gridPosition, offset = Vector3(0.5, 0.5, 0.5)) -> Vector3:
 	return Vector3(gridPosition.x, gridPosition.y, gridPosition.z) + offset

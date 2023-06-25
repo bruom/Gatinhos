@@ -10,7 +10,7 @@ signal on_hit(collider)
 @onready var footsteps_SFX = get_node("Footsteps SFX")
 var current_sound_radius: float = 0.0
 
-func _physics_process(delta):
+func _process(delta):
 	RenderingServer.global_shader_parameter_set("player_position", global_position)
 	var direciton: Vector2 = Input.get_vector("Left", "Right", "Forward", "Backward")
 	velocity = Vector3(direciton.x, 0.0, direciton.y).normalized() * speed
