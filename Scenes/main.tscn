@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_dacn3"]
 [ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_vbsvv"]
-[ext_resource type="PackedScene" uid="uid://dwxm4y21icyo0" path="res://Assets/Models/toymouse.glb" id="3_fh68p"]
+[ext_resource type="PackedScene" path="res://Scenes/item.tscn" id="3_htqcn"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_gqfv8"]
 ground_color = Color(0.443137, 0.490196, 0.34902, 1)
@@ -44,6 +44,7 @@ sneak_speed = 0.7
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.624057, 0.781379, 0, -0.781379, 0.624057, 0, 4.89812, 5.23535)
 environment = SubResource("Environment_5qmwq")
+current = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.390619, 0.920553, 0, -0.920553, 0.390619, 0, 1.50992, 0)
@@ -103,10 +104,5 @@ speed = 2.1
 patrol_route = Array[Vector3]([Vector3(-2, 2.08165e-12, -1.1)])
 facing_directions = Array[Vector3]([Vector3(2.08165e-12, 2.08165e-12, 1)])
 
-[node name="Camera3D2" type="Camera3D" parent="."]
-transform = Transform3D(-4.32745e-08, 0.141039, -0.990004, 6.16503e-09, 0.990004, 0.141039, 1, -1.40805e-16, -4.37114e-08, -5.85196, 1.09667, -1.24052)
-environment = SubResource("Environment_5qmwq")
-current = true
-
-[node name="toymouse" parent="." instance=ExtResource("3_fh68p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.733314, 0.0669544, 0.327204)
+[node name="Item" parent="." instance=ExtResource("3_htqcn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42837, 0.1, 0)
