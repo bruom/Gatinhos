@@ -9,8 +9,9 @@ class_name Enemy extends CharacterBody3D
 @export var vision_angle: float = 60
 @export var speed: float = 1.0
 @export var alert_speed_mult: float = 1.5
-@export var investigation_time: float = 2.5
+@export var looking_around_time: float = 3.5
 @export var patrol_route: Array[Vector3] = []
+@export var facing_directions: Array[Vector3] = []
 
 var current_patrol_index: int = 0
 var mesh_instance: MeshInstance3D
@@ -26,8 +27,8 @@ var enemy_state: EnemyState = EnemyState.IDLE:
 
 var chase_target
 var investigation_target: Vector3
-var remaining_investigation_time: float = 0.0
-var investigating: bool = false
+var remaining_looking_around_time: float = 0.0
+var looking_around: bool = false
 
 enum EnemyState {
 	IDLE,
@@ -37,14 +38,15 @@ enum EnemyState {
 
 func _physics_process(delta):
 	var next_pos = nav_agent.get_next_path_position()
-	move_if_needed(next_pos, speed)
-	
+	anim_player.current_animation_position
 	keep_watch()
-	if investigating:
-		remaining_investigation_time = max(0.0, remaining_investigation_time - delta)
-		if remaining_investigation_time <= 0.0:
-			investigating = false
+	if looking_around:
+		anim_player.play("cat_look")
+		remaining_looking_around_time = max(0.0, remaining_looking_around_time - delta)
+		if remaining_looking_around_time <= 0.0:
+			looking_around = false
 	else: 
+		move_if_needed(next_pos, speed)
 		if enemy_state == EnemyState.ALERT:
 			if !can_see_player():
 				if has_reached_point(chase_target):
@@ -55,15 +57,20 @@ func _physics_process(delta):
 				nav_agent.target_position = investigation_target
 				if has_reached_point(investigation_target):
 					enemy_state = EnemyState.IDLE
-					investigating = true
-					remaining_investigation_time = investigation_time
+					start_looking_around()
 		elif enemy_state == EnemyState.IDLE:
 			if !patrol_route.is_empty():
 				var next_patrol_position = get_next_patrol_waypoint()
 				if has_reached_point(next_patrol_position):
+					look_at(global_position + facing_directions[current_patrol_index])
 					current_patrol_index += 1
+					start_looking_around()
 				if next_patrol_position != null:
 					nav_agent.target_position = next_patrol_position
+
+func start_looking_around():
+	looking_around = true
+	remaining_looking_around_time = looking_around_time
 
 func move_if_needed(next_pos: Vector3, amount: float):
 	var dir = next_pos - global_position
@@ -89,12 +96,19 @@ func estimate_target_position() -> Vector3:
 
 func keep_watch():
 	if enemy_state != EnemyState.ALERT:
+		looking_around = false
 		enemy_state = EnemyState.SUSPICIOUS
 		investigation_target = target.global_position
 	if can_see_player():
-		investigating = false
+		looking_around = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
+	var item_in_sight = look_for_items()
+	if item_in_sight != null:
+		print("ITEM DETECTED")
+		enemy_state = EnemyState.SUSPICIOUS
+		investigation_target = item_in_sight.global_position
+		item_in_sight.remove_from_group("ActiveItems")
 
 #sound array is Array[[origin: Vector3, radius: float]]
 func check_for_sounds(sound_array):
@@ -120,8 +134,19 @@ func can_see_player() -> bool:
 			var collider_hit = cast_ray(target.global_position)
 			if collider_hit != null:
 				if collider_hit is CharacterBody3D:
+#					print("i c")
 					return true
 	return false
+	
+func look_for_items():
+	var level_items = get_tree().get_nodes_in_group("ActiveItems")
+	for item in level_items:
+		var angle_to_target = rad_to_deg(calculate_angle(item.global_position))
+		if angle_to_target < vision_angle / 2.0:
+			var collider_hit = cast_ray(item.global_position)
+			if collider_hit != null:
+				return item
+	return null
 
 func calculate_angle(_target: Vector3) -> float:
 	var forward_pos = cat.facing_direction
@@ -142,5 +167,6 @@ func set_overhead_label(text: String, color: Color):
 func check_for_sound(origin: Vector3, strength: float):
 	if target != null:
 		if global_position.distance_to(origin) < strength:
+			print("ENEMY: HEARD SOMETHING")
 			enemy_state = EnemyState.SUSPICIOUS
 			investigation_target = origin

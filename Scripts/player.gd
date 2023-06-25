@@ -9,7 +9,13 @@ signal on_hit(collider)
 @export var speed: float = 1.0
 @export var run_speed: float = 1.2
 @export var sneak_speed: float = 0.5
+@export var sound_radius: float = 1.5
+@export var item_placer: PackedScene
 var current_sound_radius: float = 0.0
+var items = {
+	1: 0, #Toy
+	2: 0  #Catnip
+}
 
 enum State { IDLE, WALK, RUN, SNEAK }
 var current_state: State = State.IDLE
@@ -49,6 +55,9 @@ func _process_collision():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		on_hit.emit(collider)
+
+func blink():
+	cat.set_face_uv_offset(Vector2(0.5, 0.0))
 			
 
 func _on_cat_footstep_occured():
@@ -57,3 +66,25 @@ func _on_cat_footstep_occured():
 	elif current_state == State.SNEAK:
 		noise_emitter.emit_noise()
 		
+func pickup_item(item):
+	self.items[item.item_type] += 1
+	item.remove_from_group("PlacedItems")
+	
+func _input(event):
+	if event.is_action_pressed("UseItem1"):
+		self.use_item(1)
+	if event.is_action_pressed("UseItem2"):
+		self.use_item(2)
+		
+func use_item(item_type):
+	if items[item_type] > 0:
+		print("Using item: " + str(item_type))
+		items[item_type] -= 1
+		var new_item = item_placer.instantiate()
+		get_parent().add_child(new_item)
+		new_item.position = self.global_position
+		new_item.position.y += 0.1
+		new_item.active = true
+		new_item.item_effect()
+	else:
+		print("No item of type: " + str(item_type))

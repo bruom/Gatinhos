@@ -22,6 +22,5 @@ font_size = 72
 [node name="nav_agent" type="NavigationAgent3D" parent="."]
 path_desired_distance = 0.3
 path_max_distance = 1.01
-debug_enabled = true
 
 [node name="cat" parent="." instance=ExtResource("2_djtmh")]
