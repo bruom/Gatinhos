@@ -1,12 +1,14 @@
-extends Node3D
+extends CharacterBody3D
 
 @onready var nav_agent: NavigationAgent3D = $nav_agent
+@onready var anim_player: AnimationPlayer = get_node("cat/cat/AnimationPlayer")
 
 @export var target: Node3D
 @export var alert_material: Material
 @export var suspicious_material: Material
 @export var vision_angle: float = 60
 @export var speed: float = 1.0
+@export var alert_speed_mult: float = 1.5
 @export var investigation_time: float = 2.5
 @export var patrol_route: Array[Vector3] = []
 
@@ -15,12 +17,6 @@ var mesh_instance: MeshInstance3D
 var enemy_state: EnemyState = EnemyState.IDLE:
 	set(value):
 		enemy_state = value
-		if value == EnemyState.SUSPICIOUS:
-			mesh_instance.set_surface_override_material(0, suspicious_material)
-		elif value == EnemyState.ALERT:
-			mesh_instance.set_surface_override_material(0, alert_material)
-		else:
-			mesh_instance.set_surface_override_material(0, null)
 
 var chase_target
 var investigation_target
@@ -33,12 +29,9 @@ enum EnemyState {
 	ALERT
 }
 
-func _ready():
-	mesh_instance = get_node("StaticBody3D/cat/mesh")
-	
 func _physics_process(delta):
 	var next_pos = nav_agent.get_next_path_position()
-	move_if_needed(next_pos, speed * delta)
+	move_if_needed(next_pos, speed)
 	
 	keep_watch()
 	if investigating:
@@ -68,9 +61,18 @@ func _physics_process(delta):
 
 func move_if_needed(next_pos: Vector3, amount: float):
 	var dir = next_pos - global_position
+	dir.y = 0.0
 	if dir.length() > 0.1:
-		look_at(next_pos)
-		global_position += dir.normalized() * amount
+		if enemy_state == EnemyState.ALERT:
+			amount *= alert_speed_mult
+			anim_player.play("cat_run")
+		else:
+			anim_player.play("cat_walk")
+		look_at(global_position + dir)
+		velocity = dir.normalized() * amount
+		move_and_slide()
+	else:
+		anim_player.play("cat_idle")
 
 func estimate_target_position() -> Vector3:
 	var rand_x = randf_range(-1.0, 1.0)
@@ -82,6 +84,7 @@ func keep_watch():
 		enemy_state = EnemyState.SUSPICIOUS
 		investigation_target = target.global_position
 	if can_see_player():
+		investigating = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
 
@@ -115,6 +118,7 @@ func can_see_player() -> bool:
 			var collider_hit = cast_ray(target.global_position)
 			if collider_hit != null:
 				if collider_hit is CharacterBody3D:
+					print("i c")
 					return true
 	return false
 
@@ -125,7 +129,7 @@ func calculate_angle(target: Vector3) -> float:
 
 func cast_ray(target: Vector3):
 	var space_state = get_world_3d().direct_space_state
-	var query = PhysicsRayQueryParameters3D.create(global_position, target, 0b0011)
+	var query = PhysicsRayQueryParameters3D.create(global_position, target)
 	var result = space_state.intersect_ray(query)
 	if result:
 		return result.collider
