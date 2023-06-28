@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://5thv6qle75qj" path="res://Scenes/item.tscn" id="4_1e70m"]
 
 [node name="Player" type="CharacterBody3D"]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 script = ExtResource("1_keg1m")
 speed = 1.5
 run_speed = 1.5
