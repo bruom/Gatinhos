@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmr1u7rosrxfr"]
+[gd_scene load_steps=7 format=3 uid="uid://dmr1u7rosrxfr"]
 
 [ext_resource type="Script" path="res://Scripts/door.gd" id="1_xpdr8"]
 
@@ -66,9 +66,6 @@ _data = {
 "RESET": SubResource("Animation_evtxw")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_5uwtr"]
-size = Vector3(1, 1, 0.1)
-
 [node name="Door" type="Node3D"]
 script = ExtResource("1_xpdr8")
 
@@ -110,13 +107,3 @@ skeleton = NodePath("../../..")
 libraries = {
 "": SubResource("AnimationLibrary_ktkn6")
 }
-
-[node name="InteractionRange" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.1)
-input_ray_pickable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionRange"]
-shape = SubResource("BoxShape3D_5uwtr")
-
-[connection signal="body_entered" from="InteractionRange" to="." method="_on_interaction_range_body_entered"]
-[connection signal="body_exited" from="InteractionRange" to="." method="_on_interaction_range_body_exited"]
