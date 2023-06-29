@@ -1,0 +1,116 @@
+[gd_scene load_steps=9 format=3 uid="uid://bjp8saib0cw0w"]
+
+[ext_resource type="PackedScene" uid="uid://c7oodgwgojd61" path="res://Scenes/interactible.tscn" id="1_tlqwh"]
+[ext_resource type="Script" path="res://Scripts/door.gd" id="2_je1fi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qitlc"]
+size = Vector3(0.5, 1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5rcl"]
+albedo_color = Color(0.447059, 0.266667, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3ots0"]
+material = SubResource("StandardMaterial3D_i5rcl")
+size = Vector3(1, 1, 0.1)
+
+[sub_resource type="Animation" id="Animation_6is4r"]
+resource_local_to_scene = true
+resource_name = "Open"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftHinge:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.5708, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightHinge:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -1.5708, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_evtxw"]
+resource_local_to_scene = true
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftHinge:rotation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightHinge:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ktkn6"]
+_data = {
+"Open": SubResource("Animation_6is4r"),
+"RESET": SubResource("Animation_evtxw")
+}
+
+[node name="interactible" instance=ExtResource("1_tlqwh")]
+script = ExtResource("2_je1fi")
+interaction_time = 2.0
+interaction_range = 0.6
+
+[node name="LeftHinge" type="Node3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="LeftDoor" type="RigidBody3D" parent="LeftHinge" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+collision_mask = 2
+axis_lock_linear_y = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftHinge/LeftDoor" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.5, 0)
+shape = SubResource("BoxShape3D_qitlc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftHinge/LeftDoor" index="1"]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.5, 0)
+mesh = SubResource("BoxMesh_3ots0")
+skeleton = NodePath("../../..")
+
+[node name="RightHinge" type="Node3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="RightDoor" type="RigidBody3D" parent="RightHinge" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+collision_mask = 2
+axis_lock_linear_y = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightHinge/RightDoor" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
+shape = SubResource("BoxShape3D_qitlc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightHinge/RightDoor" index="1"]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
+mesh = SubResource("BoxMesh_3ots0")
+skeleton = NodePath("../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_ktkn6")
+}

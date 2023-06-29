@@ -58,6 +58,9 @@ func _process(delta):
 		if global_position.distance_squared_to(current_interacting_node.global_position) > range * range:
 			current_interacting_node.currently_interacting = false 
 			current_interacting_node = null
+		if !Input.is_action_pressed("Interact"):
+			current_interacting_node.currently_interacting = false
+			current_interacting_node = null
 	
 	if current_interacting_node == null:
 		var interactible_node: InteractibleObject = get_closest_interactible()
@@ -65,9 +68,6 @@ func _process(delta):
 			if Input.is_action_just_pressed("Interact"):
 				current_interacting_node = interactible_node
 				interactible_node.currently_interacting = true
-			if Input.is_action_just_released("Interact"):
-				current_interacting_node = null
-				interactible_node.currently_interacting = false
 	
 	move_and_slide()
 	_process_collision()

@@ -1,4 +1,4 @@
-class_name Item extends InteractibleObject
+extends InteractibleObject
 
 enum ItemType {
 	Toy = 1, Catnip = 2
@@ -9,6 +9,7 @@ var active = false
 
 func _ready():
 	super._ready()
+	interaction_hint = "PICK UP"
 
 func interaction_completed():
 	print("Item collected")

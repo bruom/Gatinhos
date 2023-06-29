@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8ar4efjrkxd0"
-path.s3tc="res://.godot/imported/Object UVS_wall_mat_BaseColor.png-32c3d845026f7c59d2abe25a93ba7a9e.s3tc.ctex"
+uid="uid://b2hf02vk8c817"
+path.s3tc="res://.godot/imported/rounded_rect.png-65510b2781c4f752215923f36865fe3a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Textures/Object UVS_wall_mat_BaseColor.png"
-dest_files=["res://.godot/imported/Object UVS_wall_mat_BaseColor.png-32c3d845026f7c59d2abe25a93ba7a9e.s3tc.ctex"]
+source_file="res://Assets/Textures/UI/rounded_rect.png"
+dest_files=["res://.godot/imported/rounded_rect.png-65510b2781c4f752215923f36865fe3a.s3tc.ctex"]
 
 [params]
 
