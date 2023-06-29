@@ -1,21 +1,12 @@
-extends Node3D
+extends InteractibleObject
 
-var interactable = false
 var open = false
 
-func _process(delta):
-	if interactable && !open && Input.is_action_pressed("Interact"):
-		self.open_door()
+func _ready():
+	super._ready()
+	interaction_hint = "OPEN"
 
-func _on_interaction_range_body_entered(body):
-	if body.name == "Player":
-		interactable = true
-
-func _on_interaction_range_body_exited(body):
-	if body.name == "Player":
-		interactable = false
-
-func open_door():
+func interaction_completed():
 	get_node("AnimationPlayer").play("Open")
-	interactable = false
+	interaction_enabled = false
 	open = true

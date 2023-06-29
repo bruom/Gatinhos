@@ -10,7 +10,7 @@ signal on_hit(collider)
 @export var run_speed: float = 1.2
 @export var sneak_speed: float = 0.5
 @export var sound_radius: float = 1.5
-@export var run_sound_multiplier: float = 2.0
+@export var run_sound_multiplier: float = 1.5
 @export var sneak_sound_multiplier: float = 0.5
 @export var item_placer: PackedScene
 var current_sound_radius: float = 0.0
@@ -21,6 +21,7 @@ var items = {
 
 enum State { IDLE, WALK, RUN, SNEAK }
 var current_state: State = State.IDLE
+var current_interacting_node: InteractibleObject = null
 
 func _ready():
 	cat.footstep_occured.connect(Callable(_on_cat_footstep_occured))
@@ -51,6 +52,22 @@ func _process(delta):
 		current_state = State.IDLE
 		anim_player.play("cat_idle")
 		current_sound_radius = 0.0
+		
+	if current_interacting_node != null:
+		var range: float = current_interacting_node.interaction_range
+		if global_position.distance_squared_to(current_interacting_node.global_position) > range * range:
+			current_interacting_node.currently_interacting = false 
+			current_interacting_node = null
+		if !Input.is_action_pressed("Interact"):
+			current_interacting_node.currently_interacting = false
+			current_interacting_node = null
+	
+	if current_interacting_node == null:
+		var interactible_node: InteractibleObject = get_closest_interactible()
+		if interactible_node != null:
+			if Input.is_action_just_pressed("Interact"):
+				current_interacting_node = interactible_node
+				interactible_node.currently_interacting = true
 	
 	move_and_slide()
 	_process_collision()
@@ -60,6 +77,19 @@ func _process_collision():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		on_hit.emit(collider)
+
+func get_closest_interactible():
+	var interactible_nodes = get_tree().get_nodes_in_group("interactible")
+	interactible_nodes.sort_custom(func(a, b):
+		return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position)
+	)
+	var closest_interactible: InteractibleObject = null
+	for i_node in interactible_nodes:
+		var range = i_node.interaction_range
+		if global_position.distance_squared_to(i_node.global_position) <= range * range:
+			closest_interactible = i_node
+			break
+	return closest_interactible
 
 func blink():
 	cat.set_face_uv_offset(Vector2(0.5, 0.0))

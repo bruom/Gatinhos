@@ -1,11 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmr1u7rosrxfr"]
+[gd_scene load_steps=9 format=3 uid="uid://bjp8saib0cw0w"]
 
-[ext_resource type="Script" path="res://Scripts/door.gd" id="1_xpdr8"]
+[ext_resource type="PackedScene" uid="uid://c7oodgwgojd61" path="res://Scenes/interactible.tscn" id="1_tlqwh"]
+[ext_resource type="Script" path="res://Scripts/door.gd" id="2_je1fi"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_c0x20"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_qitlc"]
 size = Vector3(0.5, 1, 0.1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_g7set"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5rcl"]
+albedo_color = Color(0.447059, 0.266667, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3ots0"]
+material = SubResource("StandardMaterial3D_i5rcl")
 size = Vector3(1, 1, 0.1)
 
 [sub_resource type="Animation" id="Animation_6is4r"]
@@ -66,44 +71,46 @@ _data = {
 "RESET": SubResource("Animation_evtxw")
 }
 
-[node name="Door" type="Node3D"]
-script = ExtResource("1_xpdr8")
+[node name="interactible" instance=ExtResource("1_tlqwh")]
+script = ExtResource("2_je1fi")
+interaction_time = 2.0
+interaction_range = 0.6
 
-[node name="LeftHinge" type="Node3D" parent="."]
+[node name="LeftHinge" type="Node3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
 
-[node name="LeftDoor" type="RigidBody3D" parent="LeftHinge"]
+[node name="LeftDoor" type="RigidBody3D" parent="LeftHinge" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 collision_mask = 2
 axis_lock_linear_y = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftHinge/LeftDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftHinge/LeftDoor" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.5, 0)
-shape = SubResource("BoxShape3D_c0x20")
+shape = SubResource("BoxShape3D_qitlc")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftHinge/LeftDoor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftHinge/LeftDoor" index="1"]
 transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.5, 0)
-mesh = SubResource("BoxMesh_g7set")
+mesh = SubResource("BoxMesh_3ots0")
 skeleton = NodePath("../../..")
 
-[node name="RightHinge" type="Node3D" parent="."]
+[node name="RightHinge" type="Node3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
 
-[node name="RightDoor" type="RigidBody3D" parent="RightHinge"]
+[node name="RightDoor" type="RigidBody3D" parent="RightHinge" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
 collision_mask = 2
 axis_lock_linear_y = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightHinge/RightDoor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightHinge/RightDoor" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
-shape = SubResource("BoxShape3D_c0x20")
+shape = SubResource("BoxShape3D_qitlc")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RightHinge/RightDoor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightHinge/RightDoor" index="1"]
 transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
-mesh = SubResource("BoxMesh_g7set")
+mesh = SubResource("BoxMesh_3ots0")
 skeleton = NodePath("../../..")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
 libraries = {
 "": SubResource("AnimationLibrary_ktkn6")
 }

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://du5pu7oe23niv"]
+
+[ext_resource type="PackedScene" uid="uid://c7oodgwgojd61" path="res://Scenes/interactible.tscn" id="1_4bpst"]
+[ext_resource type="Script" path="res://Scripts/item.gd" id="2_0ish1"]
+[ext_resource type="ArrayMesh" uid="uid://dwxm4y21icyo0" path="res://Assets/Models/toymouse_mesh.res" id="3_7l6hm"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xesuo"]
+height = 0.2
+radius = 0.2
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8yux7"]
+height = 0.001
+radius = 0.2
+
+[node name="Interactible" instance=ExtResource("1_4bpst")]
+script = ExtResource("2_0ish1")
+item_type = 1
+interaction_time = 0.6
+interaction_range = 0.4
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
+shape = SubResource("CylinderShape3D_xesuo")
+
+[node name="Hitbox" type="Area3D" parent="." index="2"]
+collision_layer = 8
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" index="0"]
+shape = SubResource("CylinderShape3D_8yux7")
+
+[node name="ItemMesh" type="MeshInstance3D" parent="Hitbox" index="1"]
+transform = Transform3D(0.01, 0, 0, 0, -4.37114e-10, -0.01, 0, 0.01, -4.37114e-10, 0, 0, 0)
+mesh = ExtResource("3_7l6hm")
+skeleton = NodePath("")
