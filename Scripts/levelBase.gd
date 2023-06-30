@@ -7,6 +7,7 @@ signal noise_emitted(node: Node3D, origin: Vector3, strength: float)
 
 @export var playerScene: PackedScene
 @export var doorScene: PackedScene
+@export var soundwave_scene: PackedScene
 @export var background_music: AudioStream
 
 var playerNode: Player 
@@ -34,6 +35,7 @@ func _create_player():
 	
 	playerNode.position = $PlayerStart.position
 	playerNode.on_hit.connect(func(collider): on_player_hit.emit(collider))
+	playerNode.noise_emitter.noise_emitted.connect(func(origin: Vector3, strength: float): _create_sound_wave(origin, strength))
 
 func _create_enemy_nodes():
 	var enemyNodes = $Enemies.get_children()
@@ -97,3 +99,10 @@ func _create_collision_box(grid_position):
 
 func _grid_to_scene_position(gridPosition, offset = Vector3(0.5, 0.5, 0.5)) -> Vector3:
 	return Vector3(gridPosition.x, gridPosition.y, gridPosition.z) + offset
+
+func _create_sound_wave(origin: Vector3, strength: float):
+	var soundwave_node: Soundwave = soundwave_scene.instantiate()
+	add_child(soundwave_node)
+	soundwave_node.global_position = Vector3(origin.x, origin.y + 0.1, origin.z)
+	soundwave_node.noise_strength = strength
+	soundwave_node.play()

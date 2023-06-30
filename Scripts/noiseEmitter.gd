@@ -3,13 +3,11 @@ class_name NoiseEmitter extends Node3D
 signal noise_emitted(origin: Vector3, strength: float)
 
 @export var noise_audio_stream: AudioStream
-@onready var audio_player = $AudioStreamPlayer3D
 
 func emit_noise(strength: float = 1):
 	noise_emitted.emit(global_position, strength)
 	play_sound()
-	
-	create_debug_range(strength)
+#	create_debug_range(strength)
 
 func create_debug_range(strength: float):
 	var mesh_instance_3d: MeshInstance3D = MeshInstance3D.new()
