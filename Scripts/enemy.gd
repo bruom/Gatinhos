@@ -80,7 +80,8 @@ func _physics_process(delta):
 			if !patrol_route.is_empty():
 				var next_patrol_position = get_next_patrol_waypoint()
 				if has_reached_point(next_patrol_position):
-					look_at(global_position + facing_directions[current_patrol_index])
+					if facing_directions[current_patrol_index].length_squared() > 0.0:
+						look_at(global_position + facing_directions[current_patrol_index])
 					current_patrol_index += 1
 					start_looking_around()
 				if next_patrol_position != null:
@@ -101,7 +102,8 @@ func move_if_needed(next_pos: Vector3, amount: float):
 		else:
 			anim_player.play("cat_walk")
 			cat.set_tail_motion_parameters(1.0, 1.0)
-		look_at(global_position + dir)
+		if len(dir) != 0.0:
+			look_at(global_position + dir)
 		velocity = dir.normalized() * amount
 		move_and_slide()
 		_process_collision()

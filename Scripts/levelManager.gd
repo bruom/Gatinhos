@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var loading: Loading = $Loading
+@onready var gui = $gui
 @onready var scene_loader: SceneLoader = $SceneLoader
 
 const ENEMY_COLLISION_LAYER = 0b0100
@@ -23,20 +24,25 @@ func show_level(scene: PackedScene):
 	current_scene.on_player_hit.connect(Callable(player_was_hit))
 	current_scene.on_enemy_hit.connect(Callable(enemy_did_hit))
 	current_scene.on_player_enter_finish_area.connect(Callable(player_did_finished))
+	current_scene.on_item_amount_change.connect(Callable(item_amount_did_change))
 	add_child(current_scene)
 	loading.hide()
+	gui.show()
 
 func load_level(number: int):
 	if current_scene:
 		current_scene.queue_free()
 	loading.show()
+	gui.hide()
 	scene_loader.start_load_scene(number)
+
+func item_amount_did_change(new_amount: int):
+	gui.set_amount(new_amount)
 
 func player_did_finished():
 	var next_level = 1 if current_level == 2 else 2
 	current_level = next_level
 	load_level(next_level)
-	print("WOW! SUCH WIN!")
 
 func enemy_did_hit(collider):
 	if collider.collision_layer == PLAYER_COLLISION_LAYER:
@@ -45,4 +51,3 @@ func enemy_did_hit(collider):
 func player_was_hit(collider):
 	if collider.collision_layer == ENEMY_COLLISION_LAYER:
 		current_scene.get_tree().reload_current_scene()
-		print("GAME OVER MERMÃO!")

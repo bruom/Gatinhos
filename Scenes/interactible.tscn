@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dsll52spoxobb" path="res://Assets/Textures/UI/circle.png" id="3_054ey"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gp3x7"]
+resource_local_to_scene = true
 shader = ExtResource("2_815xo")
 shader_parameter/color = Color(1, 1, 1, 1)
 shader_parameter/upper_bound = 0.32

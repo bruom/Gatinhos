@@ -4,9 +4,11 @@ signal on_player_hit(collider)
 signal on_enemy_hit(collider)
 signal on_player_enter_finish_area
 signal noise_emitted(node: Node3D, origin: Vector3, strength: float)
+signal on_item_amount_change(new_amount: int)
 
 @export var playerScene: PackedScene
 @export var doorScene: PackedScene
+@export var itemScene: PackedScene
 @export var soundwave_scene: PackedScene
 @export var background_music: AudioStream
 
@@ -18,6 +20,7 @@ func _ready():
 	_create_enemy_nodes()
 	_create_finish_nodes()
 	_create_door_nodes()
+	_create_item_nodes()
 	_create_collisions()
 	
 	$AudioStreamPlayer.stream = background_music
@@ -36,6 +39,9 @@ func _create_player():
 	playerNode.position = $PlayerStart.position
 	playerNode.on_hit.connect(func(collider): on_player_hit.emit(collider))
 	playerNode.noise_emitter.noise_emitted.connect(func(origin: Vector3, strength: float): _create_sound_wave(origin, strength))
+	playerNode.on_item_use.connect(func(item_id): 
+		_on_player_used_item(item_id)
+	)
 
 func _create_enemy_nodes():
 	var enemyNodes = $Enemies.get_children()
@@ -58,7 +64,9 @@ func _create_finish_nodes():
 		area.set_collision_mask_value(0b0001, false)
 		area.set_collision_mask_value(0b0010, true)
 		
-		area.body_entered.connect(func(node): if node is Player: on_player_enter_finish_area.emit())
+		area.body_entered.connect(func(node):
+			if node is Player: on_player_enter_finish_area.emit()
+		)
 		
 		add_child(area)
 		
@@ -83,6 +91,19 @@ func _create_door_nodes():
 		_create_door(doorGridPosition, deg_to_rad(90))
 		$LevelMap.set_cell_item(doorGridPosition, -1)
 
+func _create_item_nodes():
+	var itemNodes = $Items.get_children()
+	for item in itemNodes:
+		_setup_item_node(item)
+
+func _setup_item_node(item_node):
+	item_node.player = playerNode
+	item_node.on_item_pickup.connect(func(item_id):
+		if item_id is int:
+			playerNode.pickup_item(item_id)
+			on_item_amount_change.emit(playerNode.items[item_id])
+	)
+
 func _create_door(gridPosition, rotation = 0):
 	var door = doorScene.instantiate()
 	add_child(door)
@@ -106,3 +127,14 @@ func _create_sound_wave(origin: Vector3, strength: float):
 	soundwave_node.global_position = Vector3(origin.x, origin.y + 0.1, origin.z)
 	soundwave_node.noise_strength = strength
 	soundwave_node.play()
+
+func _on_player_used_item(item_id):
+	if true: #eventually there could be items that are not placed on use; that could be checked here
+		var new_item = itemScene.instantiate()
+		get_parent().add_child(new_item)
+		new_item.position = playerNode.global_position + playerNode.cat.facing_direction * 0.5
+		new_item.position.y += 0.1
+		new_item.item_type = item_id
+		new_item.active = true
+		_setup_item_node(new_item)
+	on_item_amount_change.emit(playerNode.items[item_id])

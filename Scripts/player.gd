@@ -1,6 +1,7 @@
 class_name Player extends CharacterBody3D
 
 signal on_hit(collider)
+signal on_item_use(item_id)
 
 @onready var cat: Cat = $cat
 @onready var anim_player: AnimationPlayer = get_node("cat/cat/AnimationPlayer")
@@ -12,7 +13,6 @@ signal on_hit(collider)
 @export var sound_radius: float = 1.5
 @export var run_sound_multiplier: float = 1.5
 @export var sneak_sound_multiplier: float = 0.5
-@export var item_placer: PackedScene
 var current_sound_radius: float = 0.0
 var items = {
 	1: 0, #Toy
@@ -73,6 +73,9 @@ func _process(delta):
 			for i_node in get_tree().get_nodes_in_group("interactible"):
 				i_node.set_ui_visible(false)
 	
+	if Input.is_action_just_pressed("UseItem1"):
+		use_item(1)
+	
 	move_and_slide()
 	_process_collision()
 
@@ -107,25 +110,10 @@ func _on_cat_footstep_occured():
 	elif current_state == State.SNEAK:
 		noise_emitter.emit_noise(sound_radius * sneak_sound_multiplier)
 		
-func pickup_item(item):
-	self.items[item.item_type] += 1
-	
-func _input(event):
-	if event.is_action_pressed("UseItem1"):
-		self.use_item(1)
-	if event.is_action_pressed("UseItem2"):
-		self.use_item(2)
+func pickup_item(item_id: int):
+	self.items[item_id] += 1
 		
 func use_item(item_type):
 	if items[item_type] > 0:
-		print("Using item: " + str(item_type))
 		items[item_type] -= 1
-		var new_item = item_placer.instantiate()
-		get_parent().add_child(new_item)
-		new_item.position = self.global_position
-		new_item.position.y += 0.1
-		new_item.item_type = item_type
-		new_item.active = true
-		new_item.item_placed()
-	else:
-		print("No item of type: " + str(item_type))
+		on_item_use.emit(item_type)

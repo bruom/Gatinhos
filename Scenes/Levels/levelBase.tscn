@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bw8gy5ffprefa"]
+[gd_scene load_steps=12 format=3 uid="uid://bw8gy5ffprefa"]
 
 [ext_resource type="Script" path="res://Scripts/levelBase.gd" id="1_yk56j"]
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="2_ly2nx"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bjp8saib0cw0w" path="res://Scenes/door_new.tscn" id="3_ol8ds"]
 [ext_resource type="PackedScene" uid="uid://1ypi7sso5er5" path="res://Scenes/soundwave.tscn" id="4_7tyo1"]
 [ext_resource type="AudioStream" uid="uid://btgcis6dd5wr3" path="res://Assets/Sound/background_music (placeholder).wav" id="4_wf7c0"]
+[ext_resource type="PackedScene" uid="uid://du5pu7oe23niv" path="res://Scenes/item_new.tscn" id="4_y4lf1"]
 [ext_resource type="MeshLibrary" uid="uid://w1jxwqkwec3g" path="res://Resources/level_meshes.tres" id="5_hij2x"]
 
 [sub_resource type="Environment" id="Environment_702uy"]
@@ -22,6 +23,7 @@ rings = 4
 script = ExtResource("1_yk56j")
 playerScene = ExtResource("2_ly2nx")
 doorScene = ExtResource("3_ol8ds")
+itemScene = ExtResource("4_y4lf1")
 soundwave_scene = ExtResource("4_7tyo1")
 background_music = ExtResource("4_wf7c0")
 
@@ -58,3 +60,5 @@ stream = SubResource("AudioStream_snh2q")
 autoplay = true
 
 [node name="Collisions" type="Node3D" parent="."]
+
+[node name="Items" type="Node3D" parent="."]

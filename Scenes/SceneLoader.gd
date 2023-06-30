@@ -14,7 +14,8 @@ func _process(delta):
 		scene_loading.emit(progress[0])
 		if status == ResourceLoader.THREAD_LOAD_LOADED:
 			isLoadingScene = false
-			scene_loaded.emit(ResourceLoader.load_threaded_get(loadingPath))
+			var scene = ResourceLoader.load_threaded_get(loadingPath)
+			scene_loaded.emit(scene)
 
 func get_scene() -> PackedScene:
 	return ResourceLoader.load_threaded_get(loadingPath)

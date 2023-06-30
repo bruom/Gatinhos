@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://ck8c4wfr2f15y"]
+[gd_scene load_steps=13 format=3 uid="uid://ck8c4wfr2f15y"]
 
 [ext_resource type="PackedScene" uid="uid://nkh8gcim1mk4" path="res://Scenes/player.tscn" id="1_dacn3"]
 [ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_vbsvv"]
 [ext_resource type="PackedScene" uid="uid://bjp8saib0cw0w" path="res://Scenes/door_new.tscn" id="3_6es3i"]
+[ext_resource type="PackedScene" uid="uid://du5pu7oe23niv" path="res://Scenes/item_new.tscn" id="4_gob1j"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_gqfv8"]
 ground_color = Color(0.443137, 0.490196, 0.34902, 1)
@@ -104,5 +105,8 @@ speed = 2.1
 patrol_route = Array[Vector3]([Vector3(-2, 2.08165e-12, -1.1)])
 facing_directions = Array[Vector3]([Vector3(2.08165e-12, 2.08165e-12, 1)])
 
-[node name="interactible" parent="." instance=ExtResource("3_6es3i")]
+[node name="door" parent="." instance=ExtResource("3_6es3i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.15383, 0, -4.34657)
+
+[node name="item" parent="." instance=ExtResource("4_gob1j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.03974, 0.0627842, -2.45193)
