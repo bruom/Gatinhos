@@ -65,9 +65,13 @@ func _process(delta):
 	if current_interacting_node == null:
 		var interactible_node: InteractibleObject = get_closest_interactible()
 		if interactible_node != null:
+			interactible_node.set_ui_visible(true)
 			if Input.is_action_just_pressed("Interact"):
 				current_interacting_node = interactible_node
 				interactible_node.currently_interacting = true
+		else:
+			for i_node in get_tree().get_nodes_in_group("interactible"):
+				i_node.set_ui_visible(false)
 	
 	move_and_slide()
 	_process_collision()
@@ -80,6 +84,7 @@ func _process_collision():
 
 func get_closest_interactible():
 	var interactible_nodes = get_tree().get_nodes_in_group("interactible")
+	interactible_nodes = interactible_nodes.filter(func(n): return n.interaction_enabled)
 	interactible_nodes.sort_custom(func(a, b):
 		return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position)
 	)

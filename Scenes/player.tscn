@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_keg1m"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_obngv"]
+[ext_resource type="PackedScene" uid="uid://du5pu7oe23niv" path="res://Scenes/item_new.tscn" id="2_w54ik"]
 [ext_resource type="Script" path="res://Scripts/noiseEmitter.gd" id="3_3q8fm"]
 [ext_resource type="AudioStream" uid="uid://cexaxjjjkjh0c" path="res://Assets/Sound/footstep (placeholder).wav" id="3_p84ql"]
-[ext_resource type="PackedScene" uid="uid://5thv6qle75qj" path="res://Scenes/item.tscn" id="4_1e70m"]
 
 [node name="Player" type="CharacterBody3D"]
 axis_lock_linear_y = true
@@ -13,7 +13,7 @@ axis_lock_angular_z = true
 script = ExtResource("1_keg1m")
 speed = 1.5
 run_speed = 1.5
-item_placer = ExtResource("4_1e70m")
+item_placer = ExtResource("2_w54ik")
 
 [node name="cat" parent="." instance=ExtResource("2_obngv")]
 

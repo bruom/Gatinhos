@@ -14,10 +14,7 @@ var interaction_hint: String = "INTERACT":
 		contextual_action_label.text = value
 
 var main_camera: Camera3D
-var currently_interacting: bool = false:
-	set(value):
-		currently_interacting = value
-		progress_indicator.visible = currently_interacting
+var currently_interacting: bool = false
 var current_interaction_time: float = 0.0
 
 func _ready():
@@ -27,13 +24,18 @@ func _ready():
 func _process(delta):
 	upate_screen_position()
 	if currently_interacting:
+		set_ui_visible(true)
 		current_interaction_time += delta
-		progress_circle.material.set_shader_parameter("upper_bound", current_interaction_time / interaction_time)
 		if current_interaction_time >= interaction_time:
 			interaction_completed()
 			currently_interacting = false
+			set_ui_visible(false)
 	else:
 		current_interaction_time = 0.0
+	progress_circle.material.set_shader_parameter("upper_bound", current_interaction_time / interaction_time)
+
+func set_ui_visible(_visible: bool):
+	progress_indicator.visible = _visible
 
 func interaction_completed():
 	pass
