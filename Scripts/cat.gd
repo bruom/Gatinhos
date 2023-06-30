@@ -11,6 +11,12 @@ var facing_direction: Vector3:
 	get:
 		return (facing_object.global_position - global_position).normalized()
 
+var facing_angle_offset: float:
+	get:
+		var invert = to_local(facing_object.global_position).x > 0.0
+		var angle = to_local(facing_object.global_position).angle_to(Vector3.FORWARD)
+		return -angle if invert else angle
+
 func set_tail_motion_parameters(motion_speed: float, motion_amount: float):
 	var shader_mat: ShaderMaterial = cat_tail.get_surface_override_material(0)
 	shader_mat.set_shader_parameter("motion_speed", motion_speed)

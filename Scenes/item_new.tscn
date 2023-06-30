@@ -1,16 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://du5pu7oe23niv"]
+[gd_scene load_steps=7 format=3 uid="uid://du5pu7oe23niv"]
 
 [ext_resource type="PackedScene" uid="uid://c7oodgwgojd61" path="res://Scenes/interactible.tscn" id="1_4bpst"]
 [ext_resource type="Script" path="res://Scripts/item.gd" id="2_0ish1"]
 [ext_resource type="ArrayMesh" uid="uid://dwxm4y21icyo0" path="res://Assets/Models/toymouse_mesh.res" id="3_7l6hm"]
+[ext_resource type="Shader" path="res://Resources/Shaders/progress_circle.gdshader" id="3_vc6vq"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_xesuo"]
-height = 0.2
-radius = 0.2
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eghxw"]
+resource_local_to_scene = true
+shader = ExtResource("3_vc6vq")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/upper_bound = 0.32
+shader_parameter/lower_bound = null
+shader_parameter/donut_inner_radius = null
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_8yux7"]
-height = 0.001
-radius = 0.2
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vl42x"]
+radius = 0.225848
+height = 10.0
 
 [node name="Interactible" instance=ExtResource("1_4bpst")]
 script = ExtResource("2_0ish1")
@@ -18,18 +23,15 @@ item_type = 1
 interaction_time = 0.6
 interaction_range = 0.4
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." index="1"]
-collision_layer = 8
+[node name="progress_circle" parent="progress_indicator" index="0"]
+material = SubResource("ShaderMaterial_eghxw")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
-shape = SubResource("CylinderShape3D_xesuo")
-
-[node name="Hitbox" type="Area3D" parent="." index="2"]
+[node name="Hitbox" type="Area3D" parent="." index="1"]
 collision_layer = 8
 collision_mask = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" index="0"]
-shape = SubResource("CylinderShape3D_8yux7")
+shape = SubResource("CapsuleShape3D_vl42x")
 
 [node name="ItemMesh" type="MeshInstance3D" parent="Hitbox" index="1"]
 transform = Transform3D(0.01, 0, 0, 0, -4.37114e-10, -0.01, 0, 0.01, -4.37114e-10, 0, 0, 0)

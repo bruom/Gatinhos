@@ -4,9 +4,11 @@ class_name Enemy extends CharacterBody3D
 @onready var cat: Cat = $cat
 @onready var anim_player: AnimationPlayer = get_node("cat/cat/AnimationPlayer")
 @onready var overhead_label: Label3D = $overhead_label
+@onready var ray: RayCast3D = $ray
 
 @export var target: Node3D
 @export var vision_angle: float = 60
+@export var vision_resolution: int = 5
 @export var speed: float = 1.0
 @export var alert_speed_mult: float = 1.5
 @export var looking_around_time: float = 3.5
@@ -22,7 +24,7 @@ var enemy_state: EnemyState = EnemyState.IDLE:
 		enemy_state = value
 		if value == EnemyState.ALERT:
 			set_overhead_label("!", Color.RED)
-		elif value == EnemyState.SUSPICIOUS || value == EnemyState.INTERESTED:
+		elif value == EnemyState.SUSPICIOUS:
 			set_overhead_label("?", Color.GOLD)
 		else:
 			set_overhead_label("", Color.WHITE)
@@ -32,27 +34,21 @@ var investigation_target: Vector3
 var remaining_looking_around_time: float = 0.0
 var looking_around: bool = false
 var sound_heard
+var nodes_seen_this_frame: Array[Node3D] = []
 
 enum EnemyState {
 	IDLE,
 	SUSPICIOUS,
 	ALERT,
-	INTERESTED,
-	UNDER_ITEM_EFFECT
+	STUNNED
 }
 
-var previous_state: EnemyState = 0
-var item_effect_time: float = 0.0
-
 func _physics_process(delta):
-	if enemy_state == EnemyState.UNDER_ITEM_EFFECT:
-		item_effect_time = item_effect_time - delta
-		if item_effect_time > 0.0:
-			return
-		else:
-			enemy_state = previous_state
 	
 	var next_pos = nav_agent.get_next_path_position()
+	if enemy_state == EnemyState.STUNNED:
+		return
+	sweep_ray()
 	keep_watch()
 	if looking_around:
 		anim_player.play("cat_look")
@@ -73,9 +69,6 @@ func _physics_process(delta):
 				if has_reached_point(investigation_target):
 					enemy_state = EnemyState.IDLE
 					start_looking_around()
-		elif enemy_state == EnemyState.INTERESTED:
-			if investigation_target != null && investigation_target is Vector3:
-				nav_agent.target_position = investigation_target
 		elif enemy_state == EnemyState.IDLE:
 			if !patrol_route.is_empty():
 				var next_patrol_position = get_next_patrol_waypoint()
@@ -92,6 +85,8 @@ func start_looking_around():
 	remaining_looking_around_time = looking_around_time
 
 func move_if_needed(next_pos: Vector3, amount: float):
+	if enemy_state == EnemyState.STUNNED:
+		return
 	var dir = next_pos - global_position
 	dir.y = 0.0
 	if nav_agent.distance_to_target() > 0.05:
@@ -102,7 +97,7 @@ func move_if_needed(next_pos: Vector3, amount: float):
 		else:
 			anim_player.play("cat_walk")
 			cat.set_tail_motion_parameters(1.0, 1.0)
-		if len(dir) != 0.0:
+		if dir.length_squared() != 0.0:
 			look_at(global_position + dir)
 		velocity = dir.normalized() * amount
 		move_and_slide()
@@ -126,24 +121,15 @@ func keep_watch():
 		looking_around = false
 		enemy_state = EnemyState.ALERT
 		chase_target = target.global_position
-	elif sound_heard != null && enemy_state != EnemyState.ALERT:
+	elif closest_item_in_sight() != null && enemy_state == EnemyState.IDLE:
+		looking_around = false
+		enemy_state = EnemyState.SUSPICIOUS
+		investigation_target = closest_item_in_sight().global_position
+	elif sound_heard != null && enemy_state == EnemyState.IDLE:
 		looking_around = false
 		enemy_state = EnemyState.SUSPICIOUS
 		investigation_target = sound_heard
 		sound_heard = null
-	elif enemy_state != EnemyState.INTERESTED && enemy_state != EnemyState.UNDER_ITEM_EFFECT:
-		var item_in_sight = look_for_items()
-		if item_in_sight != null:
-			looking_around = false
-			previous_state = enemy_state
-			enemy_state = EnemyState.INTERESTED
-			investigation_target = item_in_sight.global_position
-
-#sound array is Array[[origin: Vector3, radius: float]]
-func check_for_sounds(sound_array):
-	for sound in sound_array:
-		if global_position.distance_squared_to(sound[0]) < sound[1] * sound[1]:
-			print("i hear you")
 
 func has_reached_point(waypoint: Vector3) -> bool:
 	return waypoint.distance_squared_to(global_position) < 0.3
@@ -157,38 +143,28 @@ func get_next_patrol_waypoint():
 		return patrol_route[current_patrol_index]
 
 func can_see_player() -> bool:
-	if target != null:
-		var angle_to_target = rad_to_deg(calculate_angle(target.global_position))
-		if angle_to_target < vision_angle / 2.0:
-			var collider_hit = cast_ray(target.global_position)
-			if collider_hit != null:
-				if collider_hit is CharacterBody3D:
-					return true
-#				else:
-#					print("something in the way")
-#			else:
-#				print("nothing")
-#		else:
-#			print("angle")
-#	print("cant see")
-	return false
-	
-func look_for_items():
-	var level_items = get_tree().get_nodes_in_group("ActiveItems")
-	for item in level_items:
-		var angle_to_target = rad_to_deg(calculate_angle(item.global_position))
-		if angle_to_target < vision_angle / 2.0:
-			var collider_hit = cast_ray(item.global_position)
-			if collider_hit != null:
-				return item
-	return null
+	return nodes_seen_this_frame.any(func(node): return node is Player)
+
+func closest_item_in_sight():
+	var all_items_in_sight = nodes_seen_this_frame.filter(func(_node: Node3D):
+		return _node.is_in_group("items")
+	)
+	if all_items_in_sight.is_empty():
+		return null
+	else:
+		var closest_node
+		var min_dist: float = 100000.0
+		for item_node in all_items_in_sight:
+			var dist = global_position.distance_squared_to(item_node.global_position)
+			if dist < min_dist:
+				min_dist = dist
+				closest_node = item_node
+		return closest_node
 	
 func trigger_item(item_type):
-	enemy_state = EnemyState.UNDER_ITEM_EFFECT
-	if item_type == 1:
-		item_effect_time = 0.5
-	if item_type == 2:
-		item_effect_time = 4.0
+	enemy_state = EnemyState.STUNNED
+	anim_player.play("cat_idle")
+	set_collision_layer_value(0b0100, false)
 
 func calculate_angle(_target: Vector3) -> float:
 	var forward_pos = cat.facing_direction
@@ -203,6 +179,27 @@ func cast_ray(target: Vector3):
 	var result = space_state.intersect_ray(query)
 	if result:
 		return result.collider
+
+func sweep_ray():
+	nodes_seen_this_frame.clear()
+	var angle_between_rays = vision_angle / float(vision_resolution)
+	
+	var initial_dir_vector = Vector3.FORWARD.rotated(Vector3.UP, cat.facing_angle_offset)
+	initial_dir_vector.y = 0.0
+	initial_dir_vector *= 100
+	initial_dir_vector = initial_dir_vector.rotated(Vector3.UP, -deg_to_rad(vision_angle/2.0))
+	for index in vision_resolution:
+		var dir_vector = initial_dir_vector.rotated(Vector3.UP, deg_to_rad(angle_between_rays * index))
+		ray.target_position = dir_vector
+		ray.force_raycast_update()
+		if ray.is_colliding():
+			var col  = ray.get_collider()
+			if col is Node3D:
+				if col.get_parent_node_3d().is_in_group("items"):
+					nodes_seen_this_frame.append(col.get_parent_node_3d())
+				elif col is Player:
+					nodes_seen_this_frame.append(col)
+	pass
 
 func set_overhead_label(text: String, color: Color):
 	overhead_label.text = text

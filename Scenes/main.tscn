@@ -46,7 +46,13 @@ sneak_speed = 0.7
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.624057, 0.781379, 0, -0.781379, 0.624057, 0, 4.89812, 5.23535)
 environment = SubResource("Environment_5qmwq")
+
+[node name="Camera3D2" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 4.898, 0)
+environment = SubResource("Environment_5qmwq")
+projection = 1
 current = true
+size = 12.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.390619, 0.920553, 0, -0.920553, 0.390619, 0, 1.50992, 0)
@@ -59,34 +65,28 @@ mesh = SubResource("BoxMesh_6pm6l")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.21062, 0, 2.42717)
-layers = 3
 mesh = SubResource("BoxMesh_kphj1")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D2"]
-collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D2/StaticBody3D"]
 shape = SubResource("BoxShape3D_ov0d7")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15362, 0, -2.70071)
-layers = 3
 mesh = SubResource("BoxMesh_kphj1")
 skeleton = NodePath("../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D3"]
-collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D3/StaticBody3D"]
 shape = SubResource("BoxShape3D_ov0d7")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.80756, 2.38419e-07, 1.16645)
-layers = 3
 mesh = SubResource("BoxMesh_kphj1")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/MeshInstance3D4"]
-collision_layer = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/MeshInstance3D4/StaticBody3D"]
 shape = SubResource("BoxShape3D_ov0d7")
@@ -109,4 +109,4 @@ facing_directions = Array[Vector3]([Vector3(2.08165e-12, 2.08165e-12, 1)])
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.15383, 0, -4.34657)
 
 [node name="item" parent="." instance=ExtResource("4_gob1j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.03974, 0.0627842, -2.45193)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.348764, 0.0627842, 0.318788)

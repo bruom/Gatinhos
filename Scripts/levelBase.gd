@@ -98,6 +98,12 @@ func _create_item_nodes():
 
 func _setup_item_node(item_node):
 	item_node.player = playerNode
+	item_node.hitbox.body_entered.connect(func(body):
+		if body is Enemy:
+			body.trigger_item(item_node.item_type)
+			item_node.queue_free()
+	)
+	
 	item_node.on_item_pickup.connect(func(item_id):
 		if item_id is int:
 			playerNode.pickup_item(item_id)

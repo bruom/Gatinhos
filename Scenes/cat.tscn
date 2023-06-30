@@ -403,7 +403,7 @@ skin = SubResource("Skin_ods57")
 surface_material_override/0 = SubResource("ShaderMaterial_umn07")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="cat/Armature001/Skeleton3D"]
-transform = Transform3D(0.998188, -0.0486729, -0.0353849, 0.0352778, -0.00305758, 0.999373, -0.0487505, -0.99881, -0.00133496, 0.133371, 0.384151, -52.797)
+transform = Transform3D(0.998188, -0.0486729, -0.0353849, 0.0352778, -0.00305758, 0.999373, -0.0487505, -0.99881, -0.00133495, 0.133371, 0.384151, -52.797)
 bone_name = "mixamorig_Head"
 bone_idx = 5
 
