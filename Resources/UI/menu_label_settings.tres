@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dhh5hwtmwc0k3"]
+
+[ext_resource type="FontVariation" uid="uid://dhd4gxmw60m3i" path="res://Resources/UI/Fonts/default_font_variation.tres" id="1_agmcu"]
+
+[resource]
+font = ExtResource("1_agmcu")
+font_size = 42

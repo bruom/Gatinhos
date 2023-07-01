@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://dhd4gxmw60m3i"]
+
+[sub_resource type="SystemFont" id="SystemFont_e7yo8"]
+
+[resource]
+base_font = SubResource("SystemFont_e7yo8")

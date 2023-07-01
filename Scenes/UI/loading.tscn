@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhpekj6kbehxp"]
+[gd_scene load_steps=6 format=3 uid="uid://bhpekj6kbehxp"]
 
 [ext_resource type="Script" path="res://Scripts/UI/loading.gd" id="1_1prmg"]
+[ext_resource type="LabelSettings" uid="uid://dhh5hwtmwc0k3" path="res://Resources/UI/menu_label_settings.tres" id="2_7awms"]
+[ext_resource type="Theme" uid="uid://wotmfeb7sie8" path="res://Resources/UI/ui_theme.tres" id="3_gom3l"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ha4xm"]
 
@@ -37,7 +39,9 @@ alignment = 1
 
 [node name="Label" type="Label" parent="ColorRect/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("3_gom3l")
 text = "Loading..."
+label_settings = ExtResource("2_7awms")
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/VBoxContainer"]
@@ -49,8 +53,11 @@ size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ha4xm")
 
 [node name="ProgressBar" type="ProgressBar" parent="ColorRect/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(400, 2.08165e-12)
+custom_minimum_size = Vector2(400, 40)
 layout_mode = 2
+theme = ExtResource("3_gom3l")
+value = 50.0
+rounded = true
 
 [node name="Panel2" type="Panel" parent="ColorRect/VBoxContainer/HBoxContainer"]
 layout_mode = 2
