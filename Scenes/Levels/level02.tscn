@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy81l4x0efvec"]
+[gd_scene load_steps=6 format=3 uid="uid://cy81l4x0efvec"]
 
 [ext_resource type="PackedScene" uid="uid://bw8gy5ffprefa" path="res://Scenes/Levels/levelBase.tscn" id="1_5f0kr"]
 [ext_resource type="PackedScene" uid="uid://cbgwftqyu6xhq" path="res://Scenes/enemy.tscn" id="2_io0jt"]
+[ext_resource type="AudioStream" uid="uid://de4hvu7l1dk4" path="res://Assets/Sound/Idle.wav" id="2_mgv6v"]
 [ext_resource type="PackedScene" uid="uid://du5pu7oe23niv" path="res://Scenes/item_new.tscn" id="3_qiuqv"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_ke5u0"]
@@ -15,6 +16,7 @@ agent_radius = 0.25
 agent_max_climb = 0.0
 
 [node name="LevelBase" instance=ExtResource("1_5f0kr")]
+background_music = ExtResource("2_mgv6v")
 
 [node name="LevelMap" parent="." index="0"]
 data = {

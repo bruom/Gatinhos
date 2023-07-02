@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3in5dnwvfwl4"]
+[gd_scene load_steps=8 format=3 uid="uid://d3in5dnwvfwl4"]
 
 [ext_resource type="MeshLibrary" uid="uid://w1jxwqkwec3g" path="res://Resources/level_meshes.tres" id="1_ms70m"]
 [ext_resource type="Script" path="res://Scripts/Menus/menu.gd" id="1_rhe43"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_ohgil"]
 [ext_resource type="PackedScene" uid="uid://brvmcx2ivldxr" path="res://Scenes/UI/Menu/MainMenuUI.tscn" id="3_jlidi"]
 [ext_resource type="PackedScene" uid="uid://y3q2tpmyfa7s" path="res://Scenes/UI/Menu/configurationUI.tscn" id="6_7vl46"]
+[ext_resource type="AudioStream" uid="uid://ckisa66dpwidb" path="res://Assets/Sound/Title.wav" id="7_ddmyl"]
 
 [node name="menu" type="Node3D"]
 script = ExtResource("1_rhe43")
@@ -40,3 +41,8 @@ transform = Transform3D(0.970367, 0, -0.241634, 0, 1, 0, 0.241634, 0, 0.970368, 
 [node name="MainMenuUI" parent="." instance=ExtResource("3_jlidi")]
 
 [node name="configuration" parent="." instance=ExtResource("6_7vl46")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ddmyl")
+autoplay = true
+bus = &"BGM"
