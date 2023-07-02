@@ -33,6 +33,7 @@ func create_debug_range(strength: float):
 func play_sound():
 	if !noise_audio_stream: return
 	var audioPlayer: AudioStreamPlayer3D = AudioStreamPlayer3D.new()
+	audioPlayer.bus = "SFX"
 	audioPlayer.stream = noise_audio_stream
 	audioPlayer.finished.connect(func(): audioPlayer.queue_free())
 	add_child(audioPlayer)

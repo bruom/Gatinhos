@@ -58,6 +58,7 @@ mesh = SubResource("CapsuleMesh_ahy45")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStream_snh2q")
 autoplay = true
+bus = &"BGM"
 
 [node name="Collisions" type="Node3D" parent="."]
 
