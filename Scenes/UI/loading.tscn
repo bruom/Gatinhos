@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/UI/loading.gd" id="1_1prmg"]
 [ext_resource type="LabelSettings" uid="uid://dhh5hwtmwc0k3" path="res://Resources/UI/menu_label_settings.tres" id="2_7awms"]
-[ext_resource type="Theme" uid="uid://wotmfeb7sie8" path="res://Resources/UI/ui_theme.tres" id="3_gom3l"]
+[ext_resource type="Theme" uid="uid://bi8qmrldwe88s" path="res://Resources/UI/Themes/ui_theme.tres" id="2_s5cu8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ha4xm"]
 
