@@ -4,5 +4,6 @@ main_menu_start_game_btn,Start Game,Iniciar Jogo
 main_menu_configuration_btn,Configuration,Configurações
 main_menu_credit_btn,Credits,Créditos
 main_menu_exit_btn,Quit Game,Fechar o jogo
-,,
-,,
+configuration_title,Configurations,Configurações
+configuration_bgm_label,BGM,BGM
+configuration_sfx_label,SFX,SFX

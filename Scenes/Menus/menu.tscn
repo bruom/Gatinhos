@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3in5dnwvfwl4"]
+[gd_scene load_steps=7 format=3 uid="uid://d3in5dnwvfwl4"]
 
 [ext_resource type="MeshLibrary" uid="uid://w1jxwqkwec3g" path="res://Resources/level_meshes.tres" id="1_ms70m"]
 [ext_resource type="Script" path="res://Scripts/Menus/menu.gd" id="1_rhe43"]
 [ext_resource type="PackedScene" uid="uid://dnhsxd83cgrpn" path="res://Scenes/levelManager.tscn" id="2_13ev0"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_ohgil"]
 [ext_resource type="PackedScene" uid="uid://brvmcx2ivldxr" path="res://Scenes/UI/Menu/MainMenuUI.tscn" id="3_jlidi"]
+[ext_resource type="PackedScene" uid="uid://y3q2tpmyfa7s" path="res://Scenes/UI/Menu/configurationUI.tscn" id="6_7vl46"]
 
 [node name="menu" type="Node3D"]
 script = ExtResource("1_rhe43")
@@ -12,6 +13,7 @@ level_manager = ExtResource("2_13ev0")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-0.99998, 3.46552e-16, -0.0063878, 3.48787e-16, 1, -3.48787e-16, 0.0063878, -3.51008e-16, -0.99998, 0.382432, 1.59015, -1.231)
+current = true
 fov = 101.7
 
 [node name="GridMap" type="GridMap" parent="."]
@@ -36,3 +38,5 @@ light_bake_mode = 1
 transform = Transform3D(0.970367, 0, -0.241634, 0, 1, 0, 0.241634, 0, 0.970368, -0.160537, 1.50215, -0.490126)
 
 [node name="MainMenuUI" parent="." instance=ExtResource("3_jlidi")]
+
+[node name="configuration" parent="." instance=ExtResource("6_7vl46")]
