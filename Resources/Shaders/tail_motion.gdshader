@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode cull_back;
 
+uniform sampler2D main_tex;
 uniform float motion_speed = 1.0;
 uniform float motion_amount = 1.0;
 
@@ -11,5 +12,5 @@ void vertex() {
 }
 
 void fragment() {
-	ALBEDO = vec3(0.5,0.5,0.5);
+	ALBEDO = texture(main_tex, UV).rgb;
 }

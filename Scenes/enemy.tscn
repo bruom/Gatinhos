@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbgwftqyu6xhq"]
+[gd_scene load_steps=7 format=3 uid="uid://cbgwftqyu6xhq"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_0q6mp"]
 [ext_resource type="PackedScene" uid="uid://bavl8tqj08fh1" path="res://Scenes/cat.tscn" id="2_djtmh"]
+[ext_resource type="Texture2D" uid="uid://doi8cqo2fb4f4" path="res://Assets/Textures/Cat/Enemy/cat_UV_face_mat_BaseColor.png" id="3_hpfqw"]
+[ext_resource type="Texture2D" uid="uid://c2n1txkkj1m21" path="res://Assets/Textures/Cat/Enemy/cat_UV_body_mat_BaseColor.png" id="3_yoo8s"]
+[ext_resource type="Texture2D" uid="uid://c8bj5pl6g0ovi" path="res://Assets/Textures/Cat/Enemy/cat_UV_face_mat_Alpha.png" id="4_xoomq"]
+[ext_resource type="Texture2D" uid="uid://kql8yaun13pw" path="res://Assets/Textures/Cat/Enemy/cat_UV_tail_mat_BaseColor.png" id="6_62f0i"]
 
 [node name="enemy" type="CharacterBody3D"]
 collision_layer = 4
@@ -26,6 +30,10 @@ path_desired_distance = 0.3
 path_max_distance = 1.01
 
 [node name="cat" parent="." instance=ExtResource("2_djtmh")]
+body_texture_override = ExtResource("3_yoo8s")
+face_texture_override = ExtResource("3_hpfqw")
+face_alpha_override = ExtResource("4_xoomq")
+tail_texture_override = ExtResource("6_62f0i")
 
 [node name="ray" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.641, 0)

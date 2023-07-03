@@ -162,9 +162,7 @@ func closest_item_in_sight():
 		return closest_node
 	
 func trigger_item(item_type):
-	enemy_state = EnemyState.STUNNED
-	anim_player.play("cat_idle")
-	set_collision_layer_value(0b0100, false)
+	get_stunned()
 
 func calculate_angle(_target: Vector3) -> float:
 	var forward_pos = cat.facing_direction
@@ -209,3 +207,9 @@ func check_for_sound(origin: Vector3, strength: float):
 	if target != null:
 		if global_position.distance_to(origin) < strength:
 			sound_heard = origin
+
+func get_stunned():
+	enemy_state = EnemyState.STUNNED
+	set_collision_layer_value(0b0100, false)
+	anim_player.play("cat_stunned")
+	cat.set_face_uv_offset(Vector2(0.5, 0.0))
