@@ -6,8 +6,6 @@ extends Node3D
 @onready var pause_gui: PauseGUI = $PauseGUI
 @onready var background_music_player: AudioStreamPlayer = $BackgroundMusicPlayer
 
-@export var main_menu_scene: PackedScene
-
 const ENEMY_COLLISION_LAYER = 0b0100
 const PLAYER_COLLISION_LAYER = 0b0010
 
@@ -24,6 +22,7 @@ func _ready():
 	load_level(current_level)
 
 func show_level(scene: PackedScene):
+	get_tree().paused = false
 	current_scene = scene.instantiate()
 	current_scene.on_player_hit.connect(Callable(player_was_hit))
 	current_scene.on_enemy_hit.connect(Callable(enemy_did_hit))
@@ -66,7 +65,8 @@ func pause_menu():
 	
 func pause_menu_button_pressed(option: PauseGUI.Option):
 	if option == PauseGUI.Option.TITLE:
-		get_tree().change_scene_to_packed(main_menu_scene)
+		var menu_packed_scene = load("res://Scenes/Menus/menu.tscn")
+		get_tree().change_scene_to_packed(menu_packed_scene)
 	elif option == PauseGUI.Option.RESUME:
 		get_tree().paused = false
 		pause_gui.hide()
