@@ -22,9 +22,6 @@ func _ready():
 	_create_door_nodes()
 	_create_item_nodes()
 	_create_collisions()
-	
-	$AudioStreamPlayer.stream = background_music
-	$AudioStreamPlayer.play()
 
 func _create_collisions():
 	var id = $LevelMap.mesh_library.find_item_by_name("Wall")

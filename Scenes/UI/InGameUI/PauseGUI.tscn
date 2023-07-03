@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpwcw1wrkil0h"]
+
+[ext_resource type="Theme" uid="uid://dx1nvrgj4elv1" path="res://Resources/UI/Themes/menu_theme.tres" id="1_0u2r1"]
+[ext_resource type="Script" path="res://Scripts/UI/InGameUI/PauseGUI.gd" id="2_4gceh"]
+[ext_resource type="LabelSettings" uid="uid://dhh5hwtmwc0k3" path="res://Resources/UI/menu_label_settings.tres" id="2_5kai6"]
+[ext_resource type="PackedScene" uid="uid://b13p2u8jetfpy" path="res://Scenes/UI/Menu/configuration_slider_entry.tscn" id="3_a7wnd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gcks3"]
+bg_color = Color(0.6, 0.6, 0.6, 0.870588)
+
+[node name="PauseGUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0u2r1")
+script = ExtResource("2_4gceh")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gcks3")
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_0u2r1")
+text = "pause_menu_title"
+label_settings = ExtResource("2_5kai6")
+horizontal_alignment = 1
+
+[node name="BGMSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_a7wnd")]
+layout_mode = 2
+label_content = "configuration_bgm_label"
+
+[node name="SFXSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" instance=ExtResource("3_a7wnd")]
+layout_mode = 2
+label_content = "configuration_sfx_label"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "pause_menu_title_btn"
+
+[node name="ResumeButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "pause_menu_resume_btn"

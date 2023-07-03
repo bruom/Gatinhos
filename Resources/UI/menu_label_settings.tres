@@ -5,3 +5,5 @@
 [resource]
 font = ExtResource("1_agmcu")
 font_size = 42
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)

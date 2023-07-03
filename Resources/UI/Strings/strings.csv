@@ -7,3 +7,6 @@ main_menu_exit_btn,Quit Game,Fechar o jogo
 configuration_title,Configurations,Configurações
 configuration_bgm_label,BGM,BGM
 configuration_sfx_label,SFX,SFX
+pause_menu_title,Paused,Pausado
+pause_menu_title_btn,Title Screen,Retornar para o título
+pause_menu_resume_btn,Resume,Continuar

@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://ckisa66dpwidb" path="res://Assets/Sound/Title.wav" id="7_ddmyl"]
 
 [node name="menu" type="Node3D"]
+process_mode = 3
 script = ExtResource("1_rhe43")
 level_manager = ExtResource("2_13ev0")
 
@@ -39,10 +40,13 @@ light_bake_mode = 1
 transform = Transform3D(0.970367, 0, -0.241634, 0, 1, 0, 0.241634, 0, 0.970368, -0.160537, 1.50215, -0.490126)
 
 [node name="MainMenuUI" parent="." instance=ExtResource("3_jlidi")]
+process_mode = 3
 
 [node name="configuration" parent="." instance=ExtResource("6_7vl46")]
+process_mode = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("7_ddmyl")
 autoplay = true
 bus = &"BGM"
