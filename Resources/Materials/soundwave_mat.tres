@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dco5uw15trdak"]
+
+[ext_resource type="Shader" path="res://Resources/Shaders/wave.gdshader" id="1_abm2v"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_abm2v")
+shader_parameter/inner_radius = 0.92
+shader_parameter/outer_radius = 1.0

@@ -3,14 +3,15 @@
 [ext_resource type="Shader" path="res://Resources/Shaders/wave.gdshader" id="1_vytkq"]
 [ext_resource type="Script" path="res://Scripts/soundwave.gd" id="2_om5j2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kfq60"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yhh4t"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_vytkq")
 shader_parameter/inner_radius = 0.92
 shader_parameter/outer_radius = 1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dlvg4"]
-material = SubResource("ShaderMaterial_kfq60")
+material = SubResource("ShaderMaterial_yhh4t")
 size = Vector2(1, 1)
 subdivide_width = 128
 subdivide_depth = 128

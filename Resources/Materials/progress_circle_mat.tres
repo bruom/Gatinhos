@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://8huc4m6es0xf"]
+
+[ext_resource type="Shader" path="res://Resources/Shaders/progress_circle.gdshader" id="1_51fo0"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_51fo0")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/upper_bound = 0.0
+shader_parameter/lower_bound = null
+shader_parameter/donut_inner_radius = null

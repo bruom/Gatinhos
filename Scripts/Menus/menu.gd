@@ -19,6 +19,7 @@ func selected(option: MainMenuUI.Option):
 		menu_ui.hide()
 		configuration_ui.show()
 	elif option == MainMenuUI.Option.CREDITS:
+		OS.shell_open("https://brownie-gamedev.itch.io/kittens")
 		pass
 	elif option == MainMenuUI.Option.EXIT:
 		get_tree().quit()

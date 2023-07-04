@@ -8,6 +8,7 @@ signal on_item_amount_change(new_amount: int)
 
 @export var playerScene: PackedScene
 @export var doorScene: PackedScene
+@export var wallScene: PackedScene
 @export var itemScene: PackedScene
 @export var soundwave_scene: PackedScene
 @export var background_music: AudioStream
@@ -21,6 +22,7 @@ func _ready():
 	_create_finish_nodes()
 	_create_door_nodes()
 	_create_item_nodes()
+	_create_wall_nodes()
 	_create_collisions()
 
 func _create_collisions():
@@ -92,6 +94,14 @@ func _create_item_nodes():
 	var itemNodes = $Items.get_children()
 	for item in itemNodes:
 		_setup_item_node(item)
+
+func _create_wall_nodes():
+	var id = $LevelMap.mesh_library.find_item_by_name("Wall")
+	var wallPositions = $LevelMap.get_used_cells_by_item(id)
+	for wallGridPosition in wallPositions:
+		var wall = wallScene.instantiate()
+		add_child(wall)
+		wall.position = _grid_to_scene_position(wallGridPosition, Vector3(0.5, 0.0, 0.5))
 
 func _setup_item_node(item_node):
 	item_node.player = playerNode

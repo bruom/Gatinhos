@@ -20,7 +20,7 @@ func _ready():
 	bgm_slider.set_slider_value(sound_configure.get_bgm_audio_level())
 	sfx_slider.set_slider_value(sound_configure.get_sfx_audio_level())
 	bgm_slider.value_changed.connect(Callable(sound_configure.set_bgm_audio_level))
-	sfx_slider.value_changed.connect(Callable(sound_configure.set_bgm_audio_level))
+	sfx_slider.value_changed.connect(Callable(sound_configure.set_sf_audio_level))
 	
 	title_button.button_up.connect(Callable(func(): button_pressed.emit(Option.TITLE)))
 	resume_button.button_up.connect(Callable(func(): button_pressed.emit(Option.RESUME)))

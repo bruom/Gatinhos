@@ -1,16 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7oodgwgojd61"]
+[gd_scene load_steps=6 format=3 uid="uid://c7oodgwgojd61"]
 
 [ext_resource type="Script" path="res://Scripts/interactible_object.gd" id="1_gwkw4"]
-[ext_resource type="Shader" path="res://Resources/Shaders/progress_circle.gdshader" id="2_815xo"]
+[ext_resource type="Material" uid="uid://8huc4m6es0xf" path="res://Resources/Materials/progress_circle_mat.tres" id="2_hmgj7"]
 [ext_resource type="Texture2D" uid="uid://dsll52spoxobb" path="res://Assets/Textures/UI/circle.png" id="3_054ey"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gp3x7"]
-resource_local_to_scene = true
-shader = ExtResource("2_815xo")
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/upper_bound = 0.32
-shader_parameter/lower_bound = null
-shader_parameter/donut_inner_radius = null
 
 [sub_resource type="LabelSettings" id="LabelSettings_rtcij"]
 font_size = 48
@@ -31,7 +23,7 @@ anchors_preset = 0
 scale = Vector2(0.4, 0.4)
 
 [node name="progress_circle" type="Sprite2D" parent="progress_indicator"]
-material = SubResource("ShaderMaterial_gp3x7")
+material = ExtResource("2_hmgj7")
 position = Vector2(-65, -127.5)
 texture = ExtResource("3_054ey")
 

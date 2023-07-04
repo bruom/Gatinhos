@@ -1,14 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnhsxd83cgrpn"]
+[gd_scene load_steps=10 format=3 uid="uid://dnhsxd83cgrpn"]
 
 [ext_resource type="Script" path="res://Scripts/levelManager.gd" id="1_05ld5"]
 [ext_resource type="PackedScene" uid="uid://bhpekj6kbehxp" path="res://Scenes/UI/loading.tscn" id="2_0xsb5"]
+[ext_resource type="Material" uid="uid://8huc4m6es0xf" path="res://Resources/Materials/progress_circle_mat.tres" id="2_darcc"]
+[ext_resource type="Material" uid="uid://dco5uw15trdak" path="res://Resources/Materials/soundwave_mat.tres" id="3_depe8"]
 [ext_resource type="Script" path="res://Scenes/SceneLoader.gd" id="3_j6oba"]
 [ext_resource type="PackedScene" uid="uid://b0vtl5aq6ebm3" path="res://Scenes/UI/gui.tscn" id="4_1jw3i"]
 [ext_resource type="PackedScene" uid="uid://cpwcw1wrkil0h" path="res://Scenes/UI/InGameUI/PauseGUI.tscn" id="5_6rljm"]
+[ext_resource type="Texture2D" uid="uid://dsll52spoxobb" path="res://Assets/Textures/UI/circle.png" id="8_81hgq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_13oqq"]
+material = ExtResource("3_depe8")
 
 [node name="LevelManager" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_05ld5")
+shader_materials = Array[ShaderMaterial]([ExtResource("2_darcc"), ExtResource("3_depe8")])
 
 [node name="SceneLoader" type="Node3D" parent="."]
 script = ExtResource("3_j6oba")
@@ -20,3 +27,15 @@ script = ExtResource("3_j6oba")
 [node name="PauseGUI" parent="." instance=ExtResource("5_6rljm")]
 
 [node name="BackgroundMusicPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"BGM"
+
+[node name="shader_cache" type="Node3D" parent="."]
+
+[node name="wave" type="MeshInstance3D" parent="shader_cache"]
+mesh = SubResource("BoxMesh_13oqq")
+skeleton = NodePath("../..")
+
+[node name="circle_progress" type="Sprite2D" parent="shader_cache"]
+material = ExtResource("2_darcc")
+position = Vector2(206, 122)
+texture = ExtResource("8_81hgq")

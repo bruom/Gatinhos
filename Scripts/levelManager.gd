@@ -9,6 +9,8 @@ extends Node3D
 const ENEMY_COLLISION_LAYER = 0b0100
 const PLAYER_COLLISION_LAYER = 0b0010
 
+@export var shader_materials: Array[ShaderMaterial]
+
 @export_range(1, 2) var current_level: int = 1
 		
 var current_scene: LevelBase
@@ -42,6 +44,9 @@ func load_level(number: int):
 	loading.show()
 	gui.hide()
 	scene_loader.start_load_scene(number)
+
+func compile_shaders():
+	pass
 
 func item_amount_did_change(new_amount: int):
 	gui.set_amount(new_amount)

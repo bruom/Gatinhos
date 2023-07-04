@@ -14,7 +14,7 @@ func set_bgm_audio_level(level: float):
 	_change_audio_level(bgm_bus_index, level)
 
 func get_sfx_audio_level() -> float:
-	return _db_to_level(AudioServer.get_bus_volume_db(bgm_bus_index))
+	return _db_to_level(AudioServer.get_bus_volume_db(sfx_bus_index))
 
 func set_sf_audio_level(level: float):
 	_change_audio_level(sfx_bus_index, level)
